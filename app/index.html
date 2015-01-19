@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>BRIL monitor demo</title>
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <style>
+          body {
+              padding-top: 50px;
+              padding-bottom: 20px;
+          }
+      </style>
+      <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+      <link rel="stylesheet" href="css/main.css">
+
+      <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+  </head>
+
+  <body>
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+  
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <img class="navbar-left" src="/img/bril_64.png" , style="padding-right: 20px", alt="BRIL logo">
+        <a class="navbar-brand" href="#">BRIL monitor demo</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+          <img class="navbar-right" src="/img/CMSlogo_reference/CMSlogo_web_png/CMSlogo_color_nolabel_64.png" alt="BRIL logo">
+       </div><!--/.navbar-collapse -->
+    </div>
+  </nav>
+
+<hr>
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-2">
+        <div>Run Number: <span id="runnumber"></span></div>
+        <div id="currenttime"></div>
+      </div>
+
+      <div class="col-md-10">
+        <form>
+          <div id="mask-management" class="form-group">
+            <div class="input-group" id="D1Mask" class="pull-left">
+              <span class="input-group-addon">D1: 
+                <label class="checkbox-inline"><input id="D1_1" type="checkbox">1&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_2" type="checkbox">2&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_3" type="checkbox">3&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_4" type="checkbox">4&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_5" type="checkbox">5&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_6" type="checkbox">6&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_7" type="checkbox">7&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_8" type="checkbox">8&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_9" type="checkbox">9&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_10" type="checkbox">10&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_11" type="checkbox">11&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D1_12" type="checkbox">12&nbsp;&nbsp;</input></label>
+              </span>
+            </div><!-- /input-group -->
+
+            <div class="input-group" id="D2Mask" class="pull-left">
+              <span class="input-group-addon">D2: 
+                <label class="checkbox-inline"><input id="D2_1" type="checkbox">1&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_2" type="checkbox">2&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_3" type="checkbox">3&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_4" type="checkbox">4&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_5" type="checkbox">5&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_6" type="checkbox">6&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_7" type="checkbox">7&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_8" type="checkbox">8&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_9" type="checkbox">9&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_10" type="checkbox">10&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_11" type="checkbox">11&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D2_12" type="checkbox">12&nbsp;&nbsp;</input></label>
+              </span>
+            </div><!-- /input-group -->
+
+            <div class="input-group" id="D3Mask" class="pull-left">
+              <span class="input-group-addon">D3: 
+                <label class="checkbox-inline"><input id="D3_1" type="checkbox">1&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_2" type="checkbox">2&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_3" type="checkbox">3&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_4" type="checkbox">4&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_5" type="checkbox">5&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_6" type="checkbox">6&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_7" type="checkbox">7&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_8" type="checkbox">8&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_9" type="checkbox">9&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_10" type="checkbox">10&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_11" type="checkbox">11&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D3_12" type="checkbox">12&nbsp;&nbsp;</input></label>
+              </span>
+            </div><!-- /input-group -->
+
+            <div class="input-group" id="D4Mask" class="pull-left">
+              <span class="input-group-addon">D4: 
+                <label class="checkbox-inline"><input id="D4_1" type="checkbox">1&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_2" type="checkbox">2&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_3" type="checkbox">3&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_4" type="checkbox">4&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_5" type="checkbox">5&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_6" type="checkbox">6&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_7" type="checkbox">7&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_8" type="checkbox">8&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_9" type="checkbox">9&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_10" type="checkbox">10&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_11" type="checkbox">11&nbsp;&nbsp;</input></label>
+                <label class="checkbox-inline"><input id="D4_12" type="checkbox">12&nbsp;&nbsp;</input></label>
+              </span>
+            </div><!-- /input-group -->
+
+          </div><!--  // mask-management -->
+          <button type="submit" class="btn btn-default" id="mask-channels">Mask selected channels</button>
+        </form>
+      </div>
+    </div> <!-- /row -->
+
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-7">
+        <!-- <h2>Heading</h2> -->
+      </div>
+      <div class="col-md-3">
+        <div class="btn-group" role="group">
+          <button class="btn btn-primary" id="get_data" role="button" data-loading-text="Loading...">Single refresh</button>
+          <button class="btn btn-primary" id="auto_refresh" role="button" data-toggle="button" aria-pressed="false" style="margin-left: 4px">Start auto-refresh</button>
+        </div>
+      </div>
+    </div> <!-- /row -->
+
+    <div class="row">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-10">
+        <div id="chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <div id="debug" style="height: 50px">
+      </div>
+    </div> <!-- /row -->
+
+    <div class="row">
+      <footer>
+        <p>&copy; CMS 2014</p>
+      </footer>
+    </div> <!-- /row -->
+    </div> <!-- /container -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+      window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')
+    </script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+      (function(){
+        console.log("Starting...");
+        var baseUrl, url, data, successData, successMasked, animate=true;
+        baseUrl = document.location.protocol + "//" + document.location.hostname;
+        if ( document.location.port ) { baseUrl += ":" + document.location.port; }
+
+        function getFormattedDate() { // helper function
+          var date = new Date();
+          var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+          return str;
+        }
+
+        var activeButton; // holds 'loading' state of 'Single refresh' button
+        $('#get_data').click(function() {
+          activeButton = $(this).button('loading');
+          getData();
+        });
+
+        successData = function(response,textStatus,jqXHR) { // callback for displaying data
+          if ( jqXHR.status != 200 ) {
+            console.log("successData: Ajax call failed: status = "+jqXHR.status);
+            return;
+          }
+          console.log(response);
+          console.log(textStatus);
+          console.log(jqXHR);
+
+          $("#runnumber").text(response.runNumber);
+          var epoch = new Date(response.timestamp);
+          epoch = $.format.date(epoch, 'yyyy/MM/dd HH:mm:ss')
+          $("#currenttime").text(epoch);
+          var yMax = 200,
+              data = response.data,
+              mask = response.mask;
+          if ( activeButton ) { activeButton.button('reset'); }
+
+          var char = new Highcharts.Chart({
+            chart: { renderTo: 'chart', type: 'column' },
+            title: { text: 'BRIL channel comparison' },
+            subtitle: { text: getFormattedDate() },
+            xAxis: {
+              categories: [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11' ]
+            },
+            yAxis: {
+              min: 0,
+              max: yMax,
+              title: { text: 'Counts' }
+            },
+            tooltip: {
+              headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+              pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                  '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+              footerFormat: '</table>',
+              shared: true,
+              useHTML: true
+            },
+            plotOptions: {
+              column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+              },
+              series: {
+                animation: animate,
+                cursor: 'pointer',
+                events: {
+                  click: function(event) {
+                    $('#debug').text("Detector: " + this.name +
+                                         "[" + event.point.x + "] = " +
+                                         data[this.name][event.point.x]);
+                  }
+                }
+              }
+            },
+            series: [
+              { name: 'D1', data: data.D1 },
+              { name: 'D2', data: data.D2 },
+              { name: 'D3', data: data.D3 },
+              { name: 'D4', data: data.D4 }
+            ]
+          });
+          animate = false;
+          $('#debug').text(JSON.stringify(mask));
+        }; // successData
+
+        var getData = function() {
+          var url = baseUrl + "/get/data";
+          console.log("GETting data from " + url);
+          $.ajax({
+            dataType: "json",
+            url: url,
+            data: data,
+            success: successData
+          });
+        };
+        
+        var autoRefreshOn;
+        $('#auto_refresh').click(function() {
+          var first = true;
+          if ( autoRefreshOn ) {
+            console.log("Stopping auto-refresh");
+            $('#get_data').button().prop('disabled', false);
+            $('#auto_refresh').button().html("Start auto-refresh");
+            autoRefreshOn = false;
+            return;
+          } else {
+            console.log("Starting auto-refresh");
+            $('#auto_refresh').button().html("Stop auto-refresh");
+            autoRefreshOn = true;
+          }
+          var autoRefresh = function() {
+            if ( autoRefreshOn ) {
+              console.log("autoRefresh is on");
+              getData();
+              setTimeout(autoRefresh,1000);
+              if ( first ) {
+                $('#get_data').button().prop('disabled', true);
+                first = false;
+              }
+            } else {
+              console.log("autoRefresh is off");
+              return;
+            }
+          };
+          autoRefresh();
+        });
+        console.log("Initialisation complete...");
+        getData();
+
+        $('#mask-channels').click(function() {
+          var i, nSelected, selected=[], checkboxes = $('#mask-management input:checkbox:checked');
+          nSelected = checkboxes.length;
+          if ( !nSelected ) { return; }
+          for ( i=0; i<nSelected; i++ ) {
+            selected.push(checkboxes[i].id);
+          };
+          console.log(JSON.stringify(selected));
+          putMask(selected);
+        });
+        var putMask = function(mask) {
+          var url = baseUrl + "/put/mask";
+          console.log("PUTting mask to " + url);
+          $.ajax({
+            dataType: "json",
+            url: url,
+            type: "put",
+            data: JSON.stringify(mask),
+            success: successMask
+          });
+        };
+        successMask = function(response,textStatus,jqXHR) { // callback for displaying data
+          alert(textResponse); // this never gets called!
+          if ( jqXHR.status != 200 ) {
+            console.log("successMask: Ajax call failed: status = "+jqXHR.status);
+            return;
+          }
+          console.log(response);
+          console.log(textStatus);
+          console.log(jqXHR);
+        };
+
+      })();
+    </script>
+  </body>
+</html>
