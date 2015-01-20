@@ -42,7 +42,7 @@
         <a class="navbar-brand" href="#">BRIL monitor demo</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
-          <img class="navbar-right" src="/img/CMSlogo_reference/CMSlogo_web_png/CMSlogo_color_nolabel_64.png" alt="BRIL logo">
+          <img class="navbar-right" src="/img/CMSlogo_color_nolabel_64.png" alt="BRIL logo">
        </div><!--/.navbar-collapse -->
     </div>
   </nav>
@@ -61,7 +61,7 @@
         <form>
           <div id="mask-management" class="form-group">
             <div class="input-group" id="D1Mask" class="pull-left">
-              <span class="input-group-addon">D1: 
+              <span class="input-group-addon">BCM1F_1:
                 <label class="checkbox-inline"><input id="D1_1" type="checkbox">1&nbsp;&nbsp;</input></label>
                 <label class="checkbox-inline"><input id="D1_2" type="checkbox">2&nbsp;&nbsp;</input></label>
                 <label class="checkbox-inline"><input id="D1_3" type="checkbox">3&nbsp;&nbsp;</input></label>
@@ -78,7 +78,7 @@
             </div><!-- /input-group -->
 
             <div class="input-group" id="D2Mask" class="pull-left">
-              <span class="input-group-addon">D2: 
+              <span class="input-group-addon">BCM1F_2:
                 <label class="checkbox-inline"><input id="D2_1" type="checkbox">1&nbsp;&nbsp;</input></label>
                 <label class="checkbox-inline"><input id="D2_2" type="checkbox">2&nbsp;&nbsp;</input></label>
                 <label class="checkbox-inline"><input id="D2_3" type="checkbox">3&nbsp;&nbsp;</input></label>
@@ -95,7 +95,7 @@
             </div><!-- /input-group -->
 
             <div class="input-group" id="D3Mask" class="pull-left">
-              <span class="input-group-addon">D3: 
+              <span class="input-group-addon">BCM1F_3:
                 <label class="checkbox-inline"><input id="D3_1" type="checkbox">1&nbsp;&nbsp;</input></label>
                 <label class="checkbox-inline"><input id="D3_2" type="checkbox">2&nbsp;&nbsp;</input></label>
                 <label class="checkbox-inline"><input id="D3_3" type="checkbox">3&nbsp;&nbsp;</input></label>
@@ -112,7 +112,7 @@
             </div><!-- /input-group -->
 
             <div class="input-group" id="D4Mask" class="pull-left">
-              <span class="input-group-addon">D4: 
+              <span class="input-group-addon">BCM1F_4:
                 <label class="checkbox-inline"><input id="D4_1" type="checkbox">1&nbsp;&nbsp;</input></label>
                 <label class="checkbox-inline"><input id="D4_2" type="checkbox">2&nbsp;&nbsp;</input></label>
                 <label class="checkbox-inline"><input id="D4_3" type="checkbox">3&nbsp;&nbsp;</input></label>
@@ -156,12 +156,13 @@
       </div>
     </div> <!-- /row -->
 
+    </div> <!-- /container -->
+
     <div class="row">
       <footer>
         <p>&copy; CMS 2014</p>
       </footer>
     </div> <!-- /row -->
-    </div> <!-- /container -->
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script>
@@ -202,7 +203,7 @@
 
           $("#runnumber").text(response.runNumber);
           var epoch = new Date(response.timestamp);
-          epoch = $.format.date(epoch, 'yyyy/MM/dd HH:mm:ss')
+          // epoch = $.format.date(epoch, 'yyyy/MM/dd HH:mm:ss')
           $("#currenttime").text(epoch);
           var yMax = 200,
               data = response.data,
@@ -211,7 +212,7 @@
 
           var char = new Highcharts.Chart({
             chart: { renderTo: 'chart', type: 'column' },
-            title: { text: 'BRIL channel comparison' },
+            title: { text: 'BCM1F channel comparison' },
             subtitle: { text: getFormattedDate() },
             xAxis: {
               categories: [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11' ]
@@ -247,10 +248,10 @@
               }
             },
             series: [
-              { name: 'D1', data: data.D1 },
-              { name: 'D2', data: data.D2 },
-              { name: 'D3', data: data.D3 },
-              { name: 'D4', data: data.D4 }
+              { name: 'BCM1F_1', data: data.BCM1F_1 },
+              { name: 'BCM1F_2', data: data.BCM1F_2 },
+              { name: 'BCM1F_3', data: data.BCM1F_3 },
+              { name: 'BCM1F_4', data: data.BCM1F_4 }
             ]
           });
           animate = false;
