@@ -1,0 +1,6 @@
+{
+  "name": "node-sqlite",
+  "dependencies": {
+   "sqlite3": "~2.2.3"
+  }
+}
