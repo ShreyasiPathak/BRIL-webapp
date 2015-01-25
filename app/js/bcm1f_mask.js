@@ -3,14 +3,24 @@
 //
 $('#bcm1f-mask-channels').click(function(event) {
   event.preventDefault();
-  var i, nSelected, selected=[], checkboxes = $('#mask-management input:checkbox:checked');
+  var i, id, detector, channel, masked, nSelected, selected=[],
+    checkboxes = $('#mask-management input:checkbox:checked'),
+    mask = {
+      BCM1F_1:[0,0,0,0,0,0,0,0,0,0,0,0],
+      BCM1F_2:[0,0,0,0,0,0,0,0,0,0,0,0],
+      BCM1F_3:[0,0,0,0,0,0,0,0,0,0,0,0],
+      BCM1F_4:[0,0,0,0,0,0,0,0,0,0,0,0]
+    };
+
   nSelected = checkboxes.length;
   if ( !nSelected ) { return; }
   for ( i=0; i<nSelected; i++ ) {
-    selected.push(checkboxes[i].id);
+    id = checkboxes[i].id.split('-');
+    mask[id[0]][id[1]] = 1;
+    // selected.push(checkboxes[i].id);
   };
-  console.log(JSON.stringify(selected));
-  putBcm1fMask(selected);
+  console.log(JSON.stringify(mask));
+  putBcm1fMask(mask);
 });
 
 var putBcm1fMask = function(mask) {
@@ -37,7 +47,6 @@ var getBcm1fMask = function() {
 };
 
 var successBcm1fMask = function(response,textStatus,jqXHR) { // callback for displaying data
-  alert(textResponse); // this never gets called!
   if ( jqXHR.status != 200 ) {
     console.log("successMask: Ajax call failed: status = "+jqXHR.status);
     return;
@@ -45,5 +54,5 @@ var successBcm1fMask = function(response,textStatus,jqXHR) { // callback for dis
   console.log(response);
   console.log(textStatus);
   console.log(jqXHR);
-  $("#bcm1f_tagname").text(response.tagname);
+  $("#bcm1f_tagname").text(response.tagName);
 };

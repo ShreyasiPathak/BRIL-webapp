@@ -49,7 +49,7 @@ var getData = function() {
 };
 
 module.exports = {
-  get: function(response) {
+  get: function(request,response) {
     response.writeHead(200,{
         "Content-type":  "application/json",
         "Cache-control": "max-age=0"
@@ -61,5 +61,5 @@ module.exports = {
     };
     logVerbose(JSON.stringify(res));
     response.end(JSON.stringify(res));
-}
+  }
 };

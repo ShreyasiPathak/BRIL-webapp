@@ -5,8 +5,11 @@
 // to get data from the real data sources
 //
 var config, configFile="./config.json",
-    logVerbose=function() { console.log(arguments); }; // define here for use in included files
-global.logVerbose = logVerbose;
+    logVerbose,
+    logVerboseReal=function() {
+      console.log(arguments);
+    }; // define here for use in included files
+global.logVerbose = logVerbose = logVerboseReal;
 var bcm1fData = require("./demo/handle_bcm1f_data");
 var bcm1fMask = require("./demo/handle_bcm1f_mask");
 
@@ -15,43 +18,33 @@ var http = require("http"),
     fs   = require("fs"); // used for watching the config file for changes
 console.log("Starting:");
 
-readConfig = function() {
-  var contents = fs.readFileSync(configFile);
-  console.log("Config file ",configFile," read");
-
-  config = JSON.parse(contents);
-  config.verbose = parseInt(config.verbose);
-  if ( config.verbose ) {
-    logVerbose = function() { console.log(arguments); }
-  } else {
-    logVerbose = function() {};
-  }
-
-  console.log("Config: Host and port: ", config.host, ":", config.port);
-  console.log("Config: Verbosity: ", config.verbose);
-  console.log("Config: Logfile: ", config.logfile)
-}
-
 // create the server, and define the handler for all valid URLs
 var server = http.createServer( function(request,response) {
   console.log("Received request: " + request.url);
 
 //
 // This is a series of 'switch' statements to handle the individual cases.
-// Add new cases here as necessary
+// Add new cases here as necessary. Be sure to 'return' from each case
+// unless you want deliberate fall-through to the next block of code, in
+// which case you should document it.
 //
 
 //
 // BCM1f mask handling
   if ( request.url == "/put/bcm1f/mask" ) {
-    console.log("Got a request to put a mask: Don't know how to do that yet!");
+    console.log("Got a request to put the BCM1F mask");
     bcm1fMask.put(request,response);
+    return;
+  }
+  if ( request.url == "/get/bcm1f/mask" ) {
+    console.log("Got a request for the BCM1F mask");
+    bcm1fMask.get(request,response);
     return;
   }
 
   if ( request.url == "/get/bcm1f/data" ) {
-    console.log("Got a request for BCM1F data");
-    bcm1fData.get(response);
+    console.log("Got a request for the BCM1F data");
+    bcm1fData.get(request,response);
     return;
   }
 
@@ -126,12 +119,29 @@ var server = http.createServer( function(request,response) {
       response.end(data);
     }
   })
-});
+}); // http.createServer
 
 //
 // Read the config file, then watch it for changes
 //
+var readConfig = function() {
+  var contents = fs.readFileSync(configFile);
+  console.log("Config file ",configFile," read");
+
+  config = JSON.parse(contents);
+  config.verbose = parseInt(config.verbose);
+  if ( config.verbose ) {
+    logVerbose = logVerboseReal;
+  } else {
+    logVerbose = function() {};
+  }
+
+  console.log("Config: Host and port: ", config.host, ":", config.port);
+  console.log("Config: Verbosity: ", config.verbose);
+  console.log("Config: Logfile: ", config.logfile)
+};
 readConfig();
+
 fs.watchFile(configFile, function(current, previous) {
   console.log("Config changed");
   readConfig();
@@ -142,4 +152,4 @@ fs.watchFile(configFile, function(current, previous) {
 //
 server.listen(config.port,config.host,function() {
   console.log("Listening on " + config.host + ":" + config.port);
-})
+});

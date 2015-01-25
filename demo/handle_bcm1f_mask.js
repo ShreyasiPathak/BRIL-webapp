@@ -7,31 +7,25 @@
 // This code is used by the server, not the client.
 //
 
-var fs = require("fs");
+var fs = require("fs"),
+    sqlite3 = require('sqlite3').verbose(),
+    bcm1fMaskDB = 'demo/bcm1fMask.db',
+    dbExists = fs.existsSync(bcm1fMaskDB),
+    db = new sqlite3.Database(bcm1fMaskDB);
 
-var bcm1fMaskDB = 'demo/bcm1fMask.db';
-if (fs.existsSync(bcm1fMaskDB)) {
+if ( dbExists ) {
   console.log("BCM1F mask DB already exists");
 } else {
-  console.log("Create BCM1F mask DB");
-  var sqlite3 = require('sqlite3').verbose();
-  var db = new sqlite3.Database(bcm1fMaskDB);
-  // var check;
   console.log("Populate BCM1F mask DB");
   db.serialize(function() {
-
     db.run("CREATE TABLE if not exists mask (detector TEXT, channel INT, masked BOOL)");
     var stmt = db.prepare("INSERT INTO mask VALUES (?,?,?)");
     for (var i = 1; i <= 4; i++) {
       for (var j = 1; j <= 12; j++) {
-          stmt.run("D" + i, j, false);
+          stmt.run("BCM1F_" + i, j, false);
       }
     }
     stmt.finalize();
-
-    // db.each("SELECT rowid AS id, detector, channel, masked FROM mask", function(err, row) {
-    //     console.log(row.id + ": " + row.detector + ", " + row.channel + ", " + row.masked);
-    // });
   });
 
   console.log("Close BCM1F mask DB");
@@ -40,7 +34,7 @@ if (fs.existsSync(bcm1fMaskDB)) {
 
 module.exports = {
 // wrap the function in module.exports{} to make it available to the server
-  mask: function() {
+  get: function(request,response) {
     var data = {
 //    the four BCM1F detectors, unimaginatively named 1 through 4
       BCM1F_1:[0,0,0,0,0,0,0,0,0,0,0,0],
@@ -51,27 +45,48 @@ module.exports = {
       tagName:'BCM1F_tag_2015-01-25'
     };
 
+    db = new sqlite3.Database(bcm1fMaskDB);
     db.serialize(function() {
       db.each("SELECT rowid AS id, detector, channel, masked FROM mask", function(err, row) {
-        console.log(row.id + ": " + row.detector + ", " + row.channel + ", " + row.masked);
+        logVerbose(row.id + ": " + row.detector + ", " + row.channel + ", " + row.masked);
+        data[row.detector][row.channel] = row.masked;
       });
     });
+    db.close();
 
-    return(data);
+    logVerbose(JSON.stringify(data));
+    response.end(JSON.stringify(data));
+    return;
   },
 
   put: function(request,response) {
-//  this should set the mask bits according to the given values.
-    response.writeHead(200,{
-      "Content-type":  "text/plain",
-      "Cache-control": "max-age=0"
+//  this sets the mask bits according to the given values.
+    var body = ""; // request body
+    request.on('data', function(data) {
+        body += data.toString();
     });
-//  receive and log the data
-    request.on("data", function (chunk) {
-        console.log("Got channel mask: "+ chunk);
+    request.on('end', function() {
+        var mask = JSON.parse(body);
+
+        response.writeHead(200, {
+          'Content-Type': 'text/plain',
+          'Access-Control-Allow-Origin' : '*',
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+        });
+        console.log('Received BCM1F mask: ' + JSON.stringify(mask));
+
+        db = new sqlite3.Database(bcm1fMaskDB);
+        db.serialize(function() {
+          for ( var det in mask ) {
+            for ( var chan in mask[det] ) {
+              var masked = mask[det][chan];
+              console.log("detector: ",det,", channel: ",chan," mask: ",masked);
+              db.each("UPDATE mask SET masked=" + masked + " WHERE detector = '" + det + "' and channel = " + chan);
+            }
+          }
+        });
+        db.close();
+        response.end('Mask set OK');
     });
-    response.end("Got mask data OK");
-    // bcm1fMask.set(data);
-    logVerbose("Send PUT response");
   }
 };
