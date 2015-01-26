@@ -47,8 +47,8 @@ module.exports = {
 
     db = new sqlite3.Database(bcm1fMaskDB);
     db.serialize(function() {
-      db.each("SELECT rowid AS id, detector, channel, masked FROM mask", function(err, row) {
-        logVerbose(row.id + ": " + row.detector + ", " + row.channel + ", " + row.masked);
+      db.each("SELECT rowid AS detector, channel, masked FROM mask", function(err, row) {
+        logVerbose(row.detector + ", " + row.channel + ", " + row.masked);
         data[row.detector][row.channel] = row.masked;
       });
     });
