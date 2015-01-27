@@ -3,7 +3,7 @@
 //
 $('#bcm1f-mask-channels').click(function(event) {
   event.preventDefault();
-  var i, id, detector, channel, masked, nSelected, selected=[],
+  var i, id, detector, channel, masked, nSelected,
     checkboxes = $('#mask-management input:checkbox:checked'),
     mask = {
       BCM1F_1:[0,0,0,0,0,0,0,0,0,0,0,0],
@@ -13,11 +13,9 @@ $('#bcm1f-mask-channels').click(function(event) {
     };
 
   nSelected = checkboxes.length;
-  if ( !nSelected ) { return; }
   for ( i=0; i<nSelected; i++ ) {
     id = checkboxes[i].id.split('-');
-    mask[id[0]][id[1]] = 1;
-    // selected.push(checkboxes[i].id);
+    mask[id[0]][id[1]-1] = 1;
   };
   console.log(JSON.stringify(mask));
   putBcm1fMask(mask);

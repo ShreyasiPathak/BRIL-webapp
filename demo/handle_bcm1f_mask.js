@@ -20,16 +20,16 @@ if ( dbExists ) {
   db.serialize(function() {
     db.run("CREATE TABLE if not exists mask (detector TEXT, channel INT, masked BOOL)");
     var stmt = db.prepare("INSERT INTO mask VALUES (?,?,?)");
-    for (var i = 1; i <= 4; i++) {
-      for (var j = 1; j <= 12; j++) {
-          stmt.run("BCM1F_" + i, j, false);
+    for (var i=1; i <= 4; i++) {
+      for (var j=1; j <= 12; j++) {
+        stmt.run("BCM1F_" + i, j, false);
       }
     }
     stmt.finalize();
   });
 
   console.log("Close BCM1F mask DB");
-  db.close();
+  // db.close();
 }
 
 module.exports = {
@@ -41,18 +41,18 @@ module.exports = {
       BCM1F_2:[0,0,0,0,0,0,0,0,0,0,0,0],
       BCM1F_3:[0,0,0,0,0,0,0,0,0,0,0,0],
       BCM1F_4:[0,0,0,0,0,0,0,0,0,0,0,0],
-//    a tag-name for the mask values
+//    a tag-name for the mask values. Assume char[32] for the layout
       tagName:'BCM1F_tag_2015-01-25'
     };
-
-    db = new sqlite3.Database(bcm1fMaskDB);
+    
+console.log(db);
     db.serialize(function() {
-      db.each("SELECT rowid AS detector, channel, masked FROM mask", function(err, row) {
+      db.each("SELECT detector, channel, masked FROM mask", function(err, row) {
         logVerbose(row.detector + ", " + row.channel + ", " + row.masked);
         data[row.detector][row.channel] = row.masked;
       });
     });
-    db.close();
+    // db.close();
 
     logVerbose(JSON.stringify(data));
     response.end(JSON.stringify(data));
@@ -79,13 +79,15 @@ module.exports = {
         db.serialize(function() {
           for ( var det in mask ) {
             for ( var chan in mask[det] ) {
-              var masked = mask[det][chan];
-              console.log("detector: ",det,", channel: ",chan," mask: ",masked);
-              db.each("UPDATE mask SET masked=" + masked + " WHERE detector = '" + det + "' and channel = " + chan);
+              var channel = parseInt(chan)+1, masked = mask[det][chan];
+              console.log("detector: ",det,", channel: ",channel," mask: ",masked);
+              db.each("UPDATE mask SET masked=" + masked +
+                      " WHERE detector = '" + det + "'" +
+                      " and channel = " + channel);
             }
           }
         });
-        db.close();
+        // db.close();
         response.end('Mask set OK');
     });
   }
