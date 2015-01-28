@@ -30,8 +30,22 @@ var putBcm1fMask = function(mask) {
     url: url,
     type: "put",
     data: JSON.stringify(mask),
-    success: successBcm1fMask
+    success: successPutBcm1fMask,
+    dataType: "text"
   });
+};
+
+var successPutBcm1fMask = function(response,textStatus,jqXHR) { // callback for displaying data
+  if ( jqXHR.status != 200 ) {
+    console.log("successMask: Ajax call failed: status = "+jqXHR.status);
+    return;
+  }
+  console.log("Put BCM1F mask successfully")
+  // console.log(response);
+  // console.log(textStatus);
+  // console.log(jqXHR);
+  $("#bcm1f-mask-message").text("Mask successfully uploaded");
+  $("#bcm1f-mask-message").addClass("bg-success");
 };
 
 var getBcm1fMask = function() {
@@ -40,17 +54,18 @@ var getBcm1fMask = function() {
   $.ajax({
     dataType: "json",
     url: url,
-    success: successBcm1fMask
+    success: successGetBcm1fMask
   });
 };
 
-var successBcm1fMask = function(response,textStatus,jqXHR) { // callback for displaying data
+var successGetBcm1fMask = function(response,textStatus,jqXHR) { // callback for displaying data
   if ( jqXHR.status != 200 ) {
     console.log("successMask: Ajax call failed: status = "+jqXHR.status);
     return;
   }
-  console.log(response);
-  console.log(textStatus);
-  console.log(jqXHR);
+  console.log("Got BCM1F mask successfully")
+  // console.log(response);
+  // console.log(textStatus);
+  // console.log(jqXHR);
   $("#bcm1f_tagname").text(response.tagName);
 };
