@@ -3,6 +3,7 @@
 //
 $('#bcm1f-mask-channels').click(function(event) {
   event.preventDefault();
+  $('#bcm1f-mask-channels').attr('disabled','disabled');
   var i, id, detector, channel, masked, nSelected,
     checkboxes = $('#mask-management input:checkbox:checked'),
     mask = {
@@ -36,17 +37,40 @@ var putBcm1fMask = function(mask) {
 };
 
 var successPutBcm1fMask = function(response,textStatus,jqXHR) { // callback for displaying data
-  if ( jqXHR.status != 200 ) {
+  if ( jqXHR.status != 2100 ) {
+    console.log(jqXHR);
+    $("#bcm1f-mask-message").stop()                 // stop any previous animation
+                            .css('opacity',1.0)     // make the status window visible in case it wasn't
+                            .text("Problem setting mask, response = '"+jqXHR.responseText+"'")
+                            .removeClass()          // remove any colour classes
+                            .addClass("bg-danger"); // mark it red
+    resetMaskButton();
     console.log("successMask: Ajax call failed: status = "+jqXHR.status);
     return;
   }
   console.log("Put BCM1F mask successfully")
-  // console.log(response);
-  // console.log(textStatus);
-  // console.log(jqXHR);
-  $("#bcm1f-mask-message").text("Mask successfully uploaded");
-  $("#bcm1f-mask-message").addClass("bg-success");
+  $("#bcm1f-mask-message").stop()                 // stop any previous animation
+                          .css('opacity',1.0)     // make the status window visible in case it wasn't
+                          .text("Mask successfully uploaded")
+                          .removeClass()          // remove any colour classes
+                          .addClass("bg-success");// mark it green
+  resetMaskButton();
+    // setTimeout( function() {
+    //               $('#bcm1f-mask-channels').removeAttr('disabled');
+    //               $('#bcm1f-mask-message').animate( { opacity:0 }, 5000, function() {
+    //                                         $('#bcm1f-mask-channels').removeAttr('disabled');
+    //                                        } )
+    //             }, 2000 );
 };
+
+var resetMaskButton = function() {
+  setTimeout( function() {
+              $('#bcm1f-mask-channels').removeAttr('disabled');
+              $('#bcm1f-mask-message').animate( { opacity:0 }, 5000, function() {
+                                        $('#bcm1f-mask-channels').removeAttr('disabled');
+                                       } )
+            }, 2000 );
+}
 
 var getBcm1fMask = function() {
   var url = baseUrl + "/get/bcm1f/mask";
@@ -64,8 +88,5 @@ var successGetBcm1fMask = function(response,textStatus,jqXHR) { // callback for 
     return;
   }
   console.log("Got BCM1F mask successfully")
-  // console.log(response);
-  // console.log(textStatus);
-  // console.log(jqXHR);
   $("#bcm1f_tagname").text(response.tagName);
 };
