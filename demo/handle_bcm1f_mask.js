@@ -44,18 +44,16 @@ module.exports = {
 //    a tag-name for the mask values. Assume char[32] for the layout
       tagName:'BCM1F_tag_2015-01-25'
     };
-    
-console.log(db);
-    db.serialize(function() {
-      db.each("SELECT detector, channel, masked FROM mask", function(err, row) {
-        logVerbose(row.detector + ", " + row.channel + ", " + row.masked);
-        data[row.detector][row.channel] = row.masked;
-      });
-    });
-    // db.close();
 
-    logVerbose(JSON.stringify(data));
-    response.end(JSON.stringify(data));
+    db.each("SELECT detector, channel, masked FROM mask",
+      function(err, row) { // row callback
+        logVerbose("Read: " + row.detector + ", " + row.channel + ", " + row.masked);
+        data[row.detector][row.channel-1] = row.masked;
+      },
+      function(err,rows) { // completion callback
+        response.end(JSON.stringify(data));
+      }
+    );
     return;
   },
 

@@ -6,3 +6,21 @@
   margin-left: 10px;
 }
 
+.select-view-div {
+  padding-top: 2px;
+}
+
+.select-view-div .btn {
+  width: 80%;
+}
+
+.chart {
+  min-width: 310px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.chart-selected-message {
+  padding: 10px 20px;
+  display: inline-block;
+}

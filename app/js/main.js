@@ -1,10 +1,13 @@
-var baseUrl, animate=true;
-baseUrl = document.location.protocol + "//" + document.location.hostname;
-if ( document.location.port ) { baseUrl += ":" + document.location.port; }
+(function(){ // this is the main application
+  console.log("Starting...");
 
-function getFormattedDate() { // helper function, formats the date for human readability
-  var date = new Date();
-  var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
-            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-  return str;
-}
+  $('#view-bcm1f' ).button().click( function() { setView("bcm1f") ; })
+  $('#view-other1').button().click( function() { setView("other1"); })
+  $('#view-other2').button().click( function() { setView("other2"); })
+
+  $(".bcm1f").toggle();
+  $(".other1").toggle();
+  $(".other2").toggle();
+
+  setView("bcm1f");
+})();

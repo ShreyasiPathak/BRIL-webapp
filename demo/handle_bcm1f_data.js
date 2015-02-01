@@ -4,9 +4,6 @@
 // The 'getData' function creates a structure with four arrays, each with 12 values
 // which are drawn from a gaussian, approximated by a Box-Muller transform
 //
-// getRunNumber should get the run number (astonishing, isn't it!)
-// and getTimeStamp should return an appropriate timestamp (epoch milliseconds)
-//
 var mean = 100, sigma = 10; // parameters of the gaussian
 var gaussian1 = function(x1,x2) {
   z = Math.sqrt(-2 * Math.log(x1)) * Math.cos( 2 * Math.PI * x2 );

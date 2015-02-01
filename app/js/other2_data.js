@@ -1,25 +1,25 @@
 //
-// Fetch and display BCM1F data
+// Fetch and display OTHER1 data
 //
 var activeButton; // holds 'loading' state of 'Single refresh' button
-$('#get_bcm1f_data').click(function() {
+$('#get_other2_data').click(function() {
   activeButton = $(this).button('loading');
-  getBcm1fData();
+  getOther2Data();
 });
 
-var getBcm1fData = function() {
-  var url = baseUrl + "/get/bcm1f/data";
+var getOther2Data = function() {
+  var url = baseUrl + "/get/other2/data";
   console.log("GETting BCM1F data from " + url);
   $.ajax({
     dataType: "json",
     url: url,
-    success: successBcm1fData
+    success: successOther2Data
   });
 };
 
-var successBcm1fData = function(response,textStatus,jqXHR) { // callback for displaying data
+var successOther2Data = function(response,textStatus,jqXHR) { // callback for displaying data
   if ( jqXHR.status != 200 ) {
-    console.log("successBcm1fData: Ajax call failed: status = "+jqXHR.status);
+    console.log("successOther2Data: Ajax call failed: status = "+jqXHR.status);
     return;
   }
   console.log(response);
@@ -35,10 +35,9 @@ var successBcm1fData = function(response,textStatus,jqXHR) { // callback for dis
 
   var menuItemsOrig = Highcharts.getOptions().exporting.buttons.contextButton.menuItems;
   var menuItems = $.extend([], true, menuItemsOrig);
-  menuItems.push( { text: "Download JSON", onclick: function() { saveJSON('BCM1F data.json',data); } } );
-
+  menuItems.push( { text: "Download JSON", onclick: function() { saveJSON('OTHER2 data.json',data); } } );
   var char = new Highcharts.Chart({
-    chart: { renderTo: 'bcm1f-chart', type: 'column' },
+    chart: { renderTo: 'other2-chart', type: 'column' },
     title: { text: 'BCM1F channel comparison' },
     subtitle: { text: getFormattedDate() },
     exporting: {
@@ -76,7 +75,7 @@ var successBcm1fData = function(response,textStatus,jqXHR) { // callback for dis
         cursor: 'pointer',
         events: {
           click: function(event) {
-              setFadeMessage("#bcm1f-chart-message",
+              setFadeMessage("#other2-chart-message",
                              "Detector: " + this.name +
                                 ", channel " + event.point.x + " = " +
                                 data[this.name][event.point.x],
@@ -94,29 +93,30 @@ var successBcm1fData = function(response,textStatus,jqXHR) { // callback for dis
     ]
   });
   animate = false;
-}; // successBcm1fData
+  $('#debug').text(JSON.stringify(mask));
+}; // successOther2Data
 
 var autoRefreshOn;
-$('#bcm1f_auto_refresh').click(function() {
+$('#other2_auto_refresh').click(function() {
   var first = true;
   if ( autoRefreshOn ) {
     console.log("Stopping auto-refresh");
-    $('#get_bcm1f_data').button().prop('disabled', false);
-    $('#bcm1f_auto_refresh').button().html("Start auto-refresh");
+    $('#get_other2_data').button().prop('disabled', false);
+    $('#other2_auto_refresh').button().html("Start auto-refresh");
     autoRefreshOn = false;
     return;
   } else {
     console.log("Starting auto-refresh");
-    $('#bcm1f_auto_refresh').button().html("Stop auto-refresh");
+    $('#other2_auto_refresh').button().html("Stop auto-refresh");
     autoRefreshOn = true;
   }
   var autoRefresh = function() {
     if ( autoRefreshOn ) {
       console.log("autoRefresh is on");
-      getBcm1fData();
+      getOther2Data();
       setTimeout(autoRefresh,1000);
       if ( first ) {
-        $('#get_bcm1f_data').button().prop('disabled', true);
+        $('#get_other2_data').button().prop('disabled', true);
         first = false;
       }
     } else {
@@ -125,4 +125,4 @@ $('#bcm1f_auto_refresh').click(function() {
     }
   };
   autoRefresh();
-}); // bcm1f_auto_refresh.click()
+}); // other2_auto_refresh.click()
