@@ -18,7 +18,7 @@ var setFadeMessage = function(el,message,bgclass,button) {
   $(el).stop()              // stop any previous animation
        .css('opacity',1.0)  // make the status window visible in case it wasn't
        .text(message)
-       .removeClass()       // remove any colour classes
+       .removeClass( [ 'bg-success','bg-info','bg-warning','bg-danger'] )       // remove any colour classes
        .addClass(bgclass);  // mark it accordingly
   setTimeout( function() {
     if ( button ) { $(button).prop('disabled', false); }
