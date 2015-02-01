@@ -31,8 +31,7 @@ var server = http.createServer( function(request,response) {
 // which case you should document it.
 //
 
-//
-// BCM1F data & mask handling
+// Handle specific data-sources. This could be neater...
   if ( request.url == "/put/bcm1f/mask" ) {
     console.log("Got a request to put the BCM1F mask");
     bcm1fMask.put(request,response);
@@ -49,16 +48,12 @@ var server = http.createServer( function(request,response) {
     return;
   }
 
-//
-// OTHER1 handling
   if ( request.url == "/get/other1/data" ) {
     console.log("Got a request for the OTHER1 data");
     other1Data.get(request,response);
     return;
   }
 
-//
-// OTHER2 handling
   if ( request.url == "/get/other2/data" ) {
     console.log("Got a request for the OTHER2 data");
     other2Data.get(request,response);

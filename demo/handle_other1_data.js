@@ -21,14 +21,14 @@ var getData = function() {
     OTHER1_2:[]
   };
   for ( i=0; i<25; i++ ) {
-    u1 = Math.random(); u2 = Math.random();
-    data.OTHER1_1.push(gaussian1(u1,u2,mean,sigma));
-    data.OTHER1_1.push(gaussian2(u1,u2,mean,sigma));
+    var u1 = Math.random(), u2 = Math.random();
+    data.OTHER1_1.push(gaussian1(u1,u2,mean,sigma) * (25+i)/25);
+    data.OTHER1_1.push(gaussian2(u1,u2,mean,sigma) * (25+i)/25);
   }
   for ( i=0; i<25; i++ ) {
-    u1 = Math.random(); u2 = Math.random();
-    data.OTHER1_2.push(gaussian1(u1,u2,mean+20,sigma));
-    data.OTHER1_2.push(gaussian2(u1,u2,mean+20,sigma));
+    var u1 = Math.random(), u2 = Math.random();
+    data.OTHER1_2.push(gaussian1(u1,u2,mean+20,sigma) * (50-i)/25);
+    data.OTHER1_2.push(gaussian2(u1,u2,mean+20,sigma) * (50-i)/25);
   }
   return(data);
 };

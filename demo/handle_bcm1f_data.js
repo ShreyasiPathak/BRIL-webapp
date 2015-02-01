@@ -23,22 +23,22 @@ var getData = function() {
     BCM1F_4:[]
   };
   for ( i=0; i<6; i++ ) {
-    u1 = Math.random(); u2 = Math.random();
+    var u1 = Math.random(), u2 = Math.random();
     data.BCM1F_1.push(gaussian1(u1,u2));
     data.BCM1F_1.push(gaussian2(u1,u2));
   }
   for ( i=0; i<6; i++ ) {
-    u1 = Math.random(); u2 = Math.random();
+    var u1 = Math.random(), u2 = Math.random();
     data.BCM1F_2.push(gaussian1(u1,u2));
     data.BCM1F_2.push(gaussian2(u1,u2));
   }
   for ( i=0; i<6; i++ ) {
-    u1 = Math.random(); u2 = Math.random();
+    var u1 = Math.random(), u2 = Math.random();
     data.BCM1F_3.push(gaussian1(u1,u2));
     data.BCM1F_3.push(gaussian2(u1,u2));
   }
   for ( i=0; i<6; i++ ) {
-    u1 = Math.random(); u2 = Math.random();
+    var u1 = Math.random(), u2 = Math.random();
     data.BCM1F_4.push(gaussian1(u1,u2));
     data.BCM1F_4.push(gaussian2(u1,u2));
   }
