@@ -1,6 +1,6 @@
 {
   "host": "",
-  "port": "1234",
+  "port": "9234",
   "logfile": "./server.log",
   "verbose": "1"
 }
