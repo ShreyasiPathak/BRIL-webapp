@@ -2,5 +2,6 @@
   "host": "",
   "port": "9234",
   "logfile": "./server.log",
-  "verbose": "1"
+  "verbose": "1",
+  "module_path": "./demo"
 }

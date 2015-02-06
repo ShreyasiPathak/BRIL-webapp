@@ -6,7 +6,6 @@
 //
 // This code is used by the server, not the client.
 //
-
 var fs = require("fs"),
     sqlite3 = require('sqlite3').verbose(),
     bcm1fMaskDB = 'demo/bcm1fMask.db',
@@ -14,9 +13,9 @@ var fs = require("fs"),
     db = new sqlite3.Database(bcm1fMaskDB);
 
 if ( dbExists ) {
-  console.log("BCM1F mask DB already exists");
+  console.log(now(),"BCM1F mask DB already exists");
 } else {
-  console.log("Populate BCM1F mask DB");
+  console.log(now(),"Populate BCM1F mask DB");
   db.serialize(function() {
     db.run("CREATE TABLE if not exists mask (detector TEXT, channel INT, masked BOOL)");
     var stmt = db.prepare("INSERT INTO mask VALUES (?,?,?)");
@@ -27,9 +26,6 @@ if ( dbExists ) {
     }
     stmt.finalize();
   });
-
-  console.log("Close BCM1F mask DB");
-  // db.close();
 }
 
 module.exports = {
@@ -45,15 +41,20 @@ module.exports = {
       tagName:'BCM1F_tag_2015-01-25'
     };
 
+    response.writeHead(200,{
+        "Content-type":  "application/json",
+        "Cache-control": "max-age=0"
+      });
     db.each("SELECT detector, channel, masked FROM mask",
       function(err, row) { // row callback
-        logVerbose("Read: " + row.detector + ", " + row.channel + ", " + row.masked);
         data[row.detector][row.channel-1] = row.masked;
       },
       function(err,rows) { // completion callback
         response.end(JSON.stringify(data));
       }
     );
+    logVerbose(now(),JSON.stringify(data));
+    response.end(JSON.stringify(data));
     return;
   },
 
@@ -71,22 +72,22 @@ module.exports = {
           'Access-Control-Allow-Origin' : '*',
           'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
         });
-        console.log('Received BCM1F mask: ' + JSON.stringify(mask));
+        console.log(now(),"Received BCM1F mask: " + JSON.stringify(mask));
 
         db = new sqlite3.Database(bcm1fMaskDB);
         db.serialize(function() {
           for ( var det in mask ) {
             for ( var chan in mask[det] ) {
               var channel = parseInt(chan)+1, masked = mask[det][chan];
-              console.log("detector: ",det,", channel: ",channel," mask: ",masked);
+              console.log(now(),"detector: ",det,", channel: ",channel," mask: ",masked);
               db.each("UPDATE mask SET masked=" + masked +
                       " WHERE detector = '" + det + "'" +
                       " and channel = " + channel);
             }
           }
         });
-        // db.close();
         response.end('Mask set OK');
     });
-  }
+  },
+  path: [ "/get/bcm1f/mask", "/put/bcm1f/mask" ]
 };
