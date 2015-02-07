@@ -28,7 +28,7 @@ module.exports = {
       runNumber: 1234567,
       timestamp: (new Date).getTime()
     };
-    logVerbose(now(),JSON.stringify(res));
+    // logVerbose(now(),JSON.stringify(res));
     response.end(JSON.stringify(res));
   },
   path: [ "/get/bcm1f/data" ]

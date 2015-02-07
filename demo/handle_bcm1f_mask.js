@@ -50,11 +50,11 @@ module.exports = {
         data[row.detector][row.channel-1] = row.masked;
       },
       function(err,rows) { // completion callback
+        logVerbose(now(),JSON.stringify(data));
         response.end(JSON.stringify(data));
       }
     );
-    logVerbose(now(),JSON.stringify(data));
-    response.end(JSON.stringify(data));
+    // response.end(JSON.stringify(data));
     return;
   },
 
@@ -65,28 +65,38 @@ module.exports = {
         body += data.toString();
     });
     request.on('end', function() {
-        var mask = JSON.parse(body);
+      var mask = JSON.parse(body);
 
-        response.writeHead(200, {
-          'Content-Type': 'text/plain',
-          'Access-Control-Allow-Origin' : '*',
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
-        });
-        console.log(now(),"Received BCM1F mask: " + JSON.stringify(mask));
-
-        db = new sqlite3.Database(bcm1fMaskDB);
-        db.serialize(function() {
-          for ( var det in mask ) {
-            for ( var chan in mask[det] ) {
-              var channel = parseInt(chan)+1, masked = mask[det][chan];
-              console.log(now(),"detector: ",det,", channel: ",channel," mask: ",masked);
-              db.each("UPDATE mask SET masked=" + masked +
-                      " WHERE detector = '" + det + "'" +
-                      " and channel = " + channel);
-            }
+      console.log(now(),"Received BCM1F mask: " + JSON.stringify(mask));
+      db = new sqlite3.Database(bcm1fMaskDB);
+      var error;
+      db.serialize(function() {
+        var stmt = db.prepare("UPDATE mask SET masked=(?) WHERE detector=(?) AND channel=(?)");
+        for ( var detector in mask ) {
+          for ( var chan in mask[detector] ) {
+            var masked = mask[detector][chan], channel = parseInt(chan)+1;
+            stmt.run(masked,detector,channel,function(err) { error = err; });
+          }
+        }
+        stmt.finalize(function(err) {
+          if ( error ) { // yes, 'error', because 'err' refers to the finalisation!
+            console.log(now(),"Caught error:",error);
+            response.writeHead(500, {
+              'Content-Type': 'text/plain',
+              'Access-Control-Allow-Origin' : '*',
+              'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+            });
+            response.end("Set mask failed: "+error);
+          } else {
+            response.writeHead(200, {
+              'Content-Type': 'text/plain',
+              'Access-Control-Allow-Origin' : '*',
+              'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+            });
+            response.end("Mask set OK");
           }
         });
-        response.end('Mask set OK');
+      });
     });
   },
   path: [ "/get/bcm1f/mask", "/put/bcm1f/mask" ]

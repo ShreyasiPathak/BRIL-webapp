@@ -32,21 +32,12 @@ var putBcm1fMask = function(mask) {
     type: "put",
     data: JSON.stringify(mask),
     success: successPutBcm1fMask,
+    error: errorPutBcm1fMask,
     dataType: "text"
   });
 };
 
 var successPutBcm1fMask = function(response,textStatus,jqXHR) { // callback for displaying data
-  if ( jqXHR.status != 200 ) {
-    console.log(jqXHR);
-
-    setFadeMessage("#bcm1f-mask-message",
-                   "Problem setting mask, response = '"+jqXHR.responseText+"'",
-                   "bg-danger",
-                   "#bcm1f-mask-channels");
-    console.log("successMask: Ajax call failed: status = "+jqXHR.status);
-    return;
-  }
   console.log("Put BCM1F mask successfully")
   setFadeMessage("#bcm1f-mask-message",
                  "Mask successfully uploaded",
@@ -54,6 +45,18 @@ var successPutBcm1fMask = function(response,textStatus,jqXHR) { // callback for 
                  "#bcm1f-mask-channels");
 };
 
+var errorPutBcm1fMask = function(response,textStatus,jqXHR) { // callback for displaying data
+  console.log("errorPutBcm1fMask response:",JSON.stringify(response));
+  console.log("errorPutBcm1fMask jqXHR:",JSON.stringify(jqXHR));
+  console.log("errorPutBcm1fMask textStatus:",textStatus);
+
+  setFadeMessage("#bcm1f-mask-message",
+                 "Error:("+response.status+") "+response.responseText,
+                 "bg-danger",
+                 "#bcm1f-mask-channels",
+                 10000);
+  console.log("errorPutBcm1fMask: Ajax call failed: status = "+jqXHR.status);
+};
 
 var getBcm1fMask = function() {
   var url = baseUrl + "/get/bcm1f/mask";

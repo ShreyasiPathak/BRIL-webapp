@@ -11,14 +11,14 @@ function getFormattedDate(date) {
   return str;
 };
 
-var setFadeMessage = function(el,message,bgclass,button) {
+var setFadeMessage = function(el,message,bgclass,button,timeout=2000) {
 // helper function: set a message banner with a background colour.
 // Leave it visible for a while, then fade it out over a longer time.
 // Re-enable an associated button, if required
   $(el).stop()              // stop any previous animation
        .css('opacity',1.0)  // make the status window visible in case it wasn't
        .text(message)
-       .removeClass( [ 'bg-success','bg-info','bg-warning','bg-danger'] )       // remove any colour classes
+       .removeClass( 'bg-success bg-info bg-warning bg-danger' )       // remove any colour classes
        .addClass(bgclass);  // mark it accordingly
   setTimeout( function() {
     if ( button ) { $(button).prop('disabled', false); }
@@ -26,7 +26,7 @@ var setFadeMessage = function(el,message,bgclass,button) {
                     { opacity:0 }, 5000,
                     function() { $(el).removeAttr('disabled'); }
                   )
-    }, 2000 );
+    }, timeout );
 };
 
 var saveJSON = function(filename,data){
