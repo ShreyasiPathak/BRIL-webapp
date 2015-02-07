@@ -1,5 +1,7 @@
 // some global variables, tsk tsk...
-var animate=true,
+
+var timers = [], // global array of timers, so I can cancel them all on page-switch
+    animate = true,
     baseUrl = document.location.protocol + "//" + document.location.hostname;
 if ( document.location.port ) { baseUrl += ":" + document.location.port; }
 
@@ -26,7 +28,7 @@ var setFadeMessage = function(el,message,bgclass,button,timeout=2000) {
                     { opacity:0 }, 5000,
                     function() { $(el).removeAttr('disabled'); }
                   )
-    }, timeout );
+    }, timeout);
 };
 
 var saveJSON = function(filename,data){
@@ -47,6 +49,9 @@ var setView = function(view) {
   console.log("switch to view",view);
   var buttons = [ 'bcm1f', 'other1', 'other2' ],
       i, b;
+
+// clear all timers running in the current view
+  for (var i = 0; i < timers.length; i++) { clearTimeout(timers[i]); }
 
   for ( i in buttons ) {
     b = buttons[i];

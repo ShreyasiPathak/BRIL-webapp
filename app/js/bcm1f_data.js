@@ -114,7 +114,7 @@ $('#bcm1f_auto_refresh').click(function() {
     if ( autoRefreshOn ) {
       console.log("autoRefresh is on");
       getBcm1fData();
-      setTimeout(autoRefresh,1000);
+      timers.push(setTimeout(autoRefresh,1000));
       if ( first ) {
         $('#get_bcm1f_data').button().prop('disabled', true);
         first = false;
