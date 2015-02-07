@@ -1,6 +1,7 @@
 {
   "name": "node-sqlite",
   "dependencies": {
-   "sqlite3": "~2.2.3"
+   "sqlite3": "~2.2.3",
+   "optimist": "~0.6.1"
   }
 }

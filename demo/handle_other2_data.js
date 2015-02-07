@@ -1,35 +1,22 @@
 //
 // This is a module for faking data for the OTHER2 detector, for demo purposes.
 //
-// The 'getData' function creates a structure with an array with 5000 values
-// drawn from a gaussian (approximated by a Box-Muller transform), but modulated
-// to look more interesting
-//
-var gaussian1 = function(x1,x2,mean,sigma) {
-  z = Math.sqrt(-2 * Math.log(x1)) * Math.cos( 2 * Math.PI * x2 );
-  return(Math.round(mean + sigma * z));
-}
-var gaussian2 = function(x1,x2,mean,sigma) {
-  z = Math.sqrt(-2 * Math.log(x1)) * Math.sin( 2 * Math.PI * x2 );
-  return(Math.round(mean + sigma * z));
-}
+var u = require("./util");
 
 var getData = function() {
-  var i, data = {
+//
+// Create a structure with an array with 5000 values drawn from a gaussian,
+// but modulated to look more interesting
+//
+  var i, j, data = {
     OTHER2:[]
-  };
-  var dips = 100;
-  for ( i=0; i<1000; i++ ) {
-    var u1 = Math.random(),
-        u2 = Math.random(),
-        v1 = gaussian1(u1,u2,1000,10),
-        v2 = gaussian2(u1,u2,1000,10);
-    if ( i%dips < 5 ) {
-      v1 = v1 * i%dips / 5;
-      v2 = v2 * i%dips / 5;
+  }, N=1000;
+  var dips=100, width=10;
+  data.OTHER2 = u.gaussian(1000,10,N)
+  for ( i=0; i<N+width; i+=dips ) {
+    for ( j=0; j<width; j++ ) {
+      data.OTHER2[i+j] *= (j%width)/width;
     }
-    data.OTHER2.push(v1);
-    data.OTHER2.push(v2);
   }
   return(data);
 };

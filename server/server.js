@@ -1,3 +1,15 @@
+#!/usr/bin/env node
+var argv = require("optimist").argv,
+    defaultConfigFile = "config.json";
+if ( argv.h || argv.help ) {
+  console.log("\n",
+  "Usage:",argv.$0," {options} where options are:\n",
+  "         -c,--config <path-to-config-file> (default: '"+defaultConfigFile+"')\n",
+  "         -h,--help   ...you're reading it :-)"
+  );
+  process.exit(0);
+}
+
 //
 // BRIL monitor server application.
 // No user-serviceable parts here, i.e. this is entirely framework and
@@ -14,7 +26,7 @@ global.now = now; // make 'now' accessible in loaded modules
 
 var http = require("http"),
     fs   = require("fs"), // used for watching the config file for changes
-    config, configFile="./config.json",
+    config, configFile = (argv.config || argv.c || defaultConfigFile),
     logVerbose,
     logVerboseReal=function() { console.log(arguments); };
 global.logVerbose = logVerbose = logVerboseReal;
@@ -47,22 +59,30 @@ fs.watchFile(configFile, function(current, previous) {
 });
 
 //
-// load URL handler modules
+// load URL handler modules from the path named in
+// config.module_path
 //
 var handler_files = fs.readdirSync(config.module_path),
     handlers=[], handler;
 for ( var i=0; i < handler_files.length; i++ ) {
   handler = handler_files[i];
-  if ( handler.match('^handle_.*.js$') ) {
+  if ( handler.match('^handle_.*.js$') ) { // N.B. only 'handle_*.js' files here!
     handler = handler.replace(/.js$/,'');
-    handlers.push( require(config.module_path+"/"+handler) );
+    handlers.push( require("../"+config.module_path+"/"+handler) );
   }
 }
 
-// create the server, and define the handler for all valid URLs
+// create the server!
 var server = http.createServer( function(request,response) {
   console.log(now(),"Received request: " + request.url);
 
+//
+// Find a matching handler, if any, for this URL. Call the handler method
+// corresponding to the URL ('get', 'put') and return.
+//
+// If no matching handler is found, fall-through to the next level, which
+// handles basic file-serving. CSS, HTML and all that...
+//
   for ( var i=0; i<handlers.length; i++ ) {
     handler = handlers[i];
     for ( var j=0; j<handler.path.length; j++ ) {
