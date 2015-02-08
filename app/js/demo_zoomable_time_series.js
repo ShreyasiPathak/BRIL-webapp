@@ -33,7 +33,7 @@ var zoomable_time_series = { // this is a global object, so pick a name that rep
 //  Parse the data into a useable form
 //
     var data = response.data;
-console.log(data);
+
 //
 //  Add a 'download JSON' option to the menu button. Have to clone the Highcharts menu and
 //  append to that, otherwise you get a mess
@@ -145,7 +145,7 @@ console.log(data);
     // use the 'obj' object here instead of 'this', because of the setTimeout context issue
         if ( obj.autoRefreshOn ) {
           obj.get();
-          timers.push(setTimeout(obj.autoRefresh,2500)); // 'obj' instead of 'this' here too...
+          timers.push(setTimeout(obj.autoRefresh,1000)); // 'obj' instead of 'this' here too...
           $('#'+obj.me+'_single_refresh').button().prop('disabled', true); // don't need this every time, but heck...
         } else {
           return;

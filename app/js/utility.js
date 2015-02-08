@@ -53,31 +53,25 @@ var activeView; // record which view is active
 var setView = function(view) {
 // toggle between views
   console.log("switch to view",view);
-  var buttons = [ 'bcm1f', 'basic_area', 'zoomable_time_series' ],
-      i, b;
+  var i, v;
 
 // clear all timers running in the current view
   for (var i = 0; i < timers.length; i++) { clearTimeout(timers[i]); }
 
-  for ( i in buttons ) {
-    b = buttons[i];
-    console.log("#view-"+b,' disabled = ', ( b == view ? true : false ) );
-    $("#view-"+b).button().prop('disabled', ( b == view ? true : false ) );
-    if ( (b == view) || (b == activeView) ) { $('.'+b).toggle(); }
+  for ( i=0; i<views.length; i++ ) {
+    v = views[i];
+    $("#view-"+v.me).button().prop('disabled', ( v.me == view ? true : false ) );
+    if ( (v.me == view) || (v.me == activeView) ) { $('.'+v.me).toggle(); }
   }
 
-  if ( view == 'bcm1f' ) {
-    bcm1f.start();
-    bcm1f_mask.get();
+  // now I need the view object, not just it's name...
+  for ( i=0; i<views.length; i++ ) {
+    if ( (views[i].me == view) ) { view = views[i]; }
   }
-  if ( view == 'basic_area' ) {
-    basic_area.start();
-  }
-  if ( view == 'zoomable_time_series' ) {
-    zoomable_time_series.start();
-  }
-  activeView = view;
-  console.log("done switch to view",view);
+
+  view.start();
+  activeView = view.me;
+  console.log("Switched to view",view.me);
 };
 
 function now(date) {

@@ -107,6 +107,7 @@ var server = http.createServer( function(request,response) {
 // This then falls-through to the rest of the application
 //
   var file = request.url;
+  file = file.split('?')[0];
   if ( file == "/" ) {
     logVerbose(now(),"Got a request for /");
     file = "/index.html";

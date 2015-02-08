@@ -118,6 +118,7 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
     $('#'+this.me+'_auto_refresh').button().html("Start auto-refresh");
     this.autoRefreshOn = false;
     this.get();
+    if ( bcm1f_mask ) { bcm1f_mask.get(); }
   },
 
   init: function() {

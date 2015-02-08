@@ -1,13 +1,27 @@
 (function(){ // this is the main application
   console.log("Starting...");
 
-  $('#view-bcm1f' ).button().click( function() { setView("bcm1f") ; })
-  $('#view-basic_area' ).button().click( function() { setView("basic_area") ; })
-  $('#view-zoomable_time_series').button().click( function() { setView("zoomable_time_series"); })
+  for (var i=0; i<views.length; i++) {
+    var view = views[i], handler;
+    console.log("View: ",view.me);
 
-  $(".bcm1f").toggle();
-  $(".basic_area").toggle();
-  $(".zoomable_time_series").toggle();
+    handler = function(v) {
+      return function(event) {
+        event.preventDefault();
+        setView(v);
+      };
+    };
+    $('#view-'+view.me ).button().click( handler(view.me) );
+    $('.'+view.me).toggle();
+  }
 
-  setView("bcm1f");
+  var view = document.location.search;
+  if ( view ) {
+    view = view.split('?view=')[1];
+    console.log("Set initial view to ",view);
+  } else {
+    view = "bcm1f";
+  }
+
+  setView(view);
 })();
