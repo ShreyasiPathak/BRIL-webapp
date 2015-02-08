@@ -89,8 +89,7 @@ var addView = function(me) {
      '</div>').appendTo('#select-views');
 
 // only append if it doesn't exist already!
-  if ( !$('#control-panel .'+me) ) { // this doesn't work :-(
-    console.log("Add control-panel element for "+me);
+  if ( $('div#control-panel div.'+me).length == 0 ) {
     $('<div class="'+me+'"></div>').appendTo('#control-panel');
   }
 
