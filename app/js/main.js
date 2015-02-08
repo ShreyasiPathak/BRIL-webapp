@@ -7,6 +7,7 @@
 
     handler = function(v) {
       return function(event) {
+        debugger;
         event.preventDefault();
         setView(v);
       };

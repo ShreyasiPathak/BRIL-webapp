@@ -63,18 +63,22 @@
             <button type="submit" class="btn btn-primary" id="view-bcm1f">BCM1F</button>
           </div>
           <div class="select-view-div">
-            <button type="submit" class="btn btn-primary" id="view-basic_area">Basic Area chart</button>
+            <button type="submit" class="btn btn-primary" id="view-basic_area">Basic area chart</button>
           </div>
           <div class="select-view-div">
             <button type="submit" class="btn btn-primary" id="view-zoomable_time_series">Zoomable time series</button>
           </div>
+          <div class="select-view-div">
+            <button type="submit" class="btn btn-primary" id="view-line_graph">Line graph</button>
+          </div>
 
-          <!-- TEMPLATE: Copy this div and change /my_view/ to the name of your view. -->
+          <!-- TEMPLATE: Copy this div to just above and change /my_view/ to the name of your view. -->
           <!-- TEMPLATE: Also change 'My View' to the label you want to see on-screen
           <div class="select-view-div">
             <button type="submit" class="btn btn-primary" id="view-my_view">My View</button>
           </div>
             end of TEMPLATE -->
+
         </div> <!-- select-views -->
 
       </div> <!-- col-md-3 -->
@@ -160,8 +164,9 @@
 
         <div class="basic_area"></div> <!-- basic_area controls -->
         <div class="zoomable_time_series"></div> <!-- zoomable_time_series controls -->
+        <div class="line_graph"></div> 
 
-        <!-- TEMPLATE: Copy this div and change my_view to the name of your view -->
+        <!-- TEMPLATE: Copy this div to just above and change my_view to the name of your view -->
         <!-- TEMPLATE: This div is used for controls above the view, like the BCM1F demo
         <div class="my_view"></div> 
         end of TEMPLATE -->
@@ -224,7 +229,25 @@
       </div>
     </div> <!-- row zoomable_time_series -->
 
-    <!-- TEMPLATE: Copy from here to 'end of TEMPLATE' and replace my_view with the name of your view -->
+    <div class="row line_graph"><!-- holds the buttons for refreshing the My View data -->
+      <div class="col-md-3"></div>
+      <div class="col-md-6"></div>
+      <div class="col-md-3">
+        <div class="btn-group" role="group">
+          <button class="btn btn-primary" id="line_graph_single_refresh" role="button" data-loading-text="Loading...">Single refresh</button>
+          <button class="btn btn-primary" id="line_graph_auto_refresh" role="button" data-toggle="button" aria-pressed="false" style="margin-left: 4px">Start auto-refresh</button>
+        </div>
+      </div>
+    </div> <!-- row line_graph -->
+    <div class="row line_graph"><!-- this is where the main chart goes -->
+      <div class="col-md-3"></div>
+      <div class="col-md-9">
+        <div id="line_graph-chart" class="chart"></div>
+        <div id="line_graph-chart-message" class="chart-selected-message"></div>
+      </div>
+    </div> <!-- row line_graph -->
+
+    <!-- TEMPLATE: Copy from here to 'end of TEMPLATE' to just above, replace my_view with the name of your view -->
     <div class="row my_view"><!-- holds the buttons for refreshing the My View data -->
       <div class="col-md-3"></div>
       <div class="col-md-6"></div>
@@ -253,8 +276,8 @@
     </div> <!-- row -->
 
     <!-- serve the application javascript files here -->
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
-    <!-- <script> -->
+    <!-- // <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+    <!-- // <script> -->
       <!-- window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>') -->
     <!-- </script> -->
     <script src="js/vendor/jquery-1.11.1.min.js"></script>
@@ -266,11 +289,14 @@
     <script src="js/bcm1f_mask.js"></script> <!-- BCM1f mask-handling code -->
     <script src="js/demo_basic_area.js"></script> <!-- basic_area display code -->
     <script src="js/demo_zoomable_time_series.js"></script> <!-- Zoomable Time-series display code -->
+    <script src="js/demo_line_graph.js"></script> <!-- line_graph display code -->
+
     <!-- TEMPLATE: add your javascript file here. Change my_view to the name of your view -->
     <!-- TEMPLATE: don't forget to remove the '!-- ' from the start of script declaration! -->
-    <!-- TEMPLATE: (don't remove the closing comment on the same line, that one should be there!) -->
-    <!-- script src="js/my_view.js"></script> <!-- my_view display code -->
+    <!-- TEMPLATE: also remove the closing comment on the same line! -->
+    <!-- script src="js/my_view.js"></script> -->
     <!-- end of TEMPLATE: -->
+
     <script src="js/main.js"></script> <!-- main program driver -->
   </body>
 </html>

@@ -92,6 +92,19 @@ var server = http.createServer( function(request,response) {
   }
 
 //
+// trivial test data, just to ease the development path
+//
+  if ( request.url == "/get/test/data" ) {
+    console.log(now(),"Sending test data");
+    response.writeHead(200,{
+        "Content-type":  "application/json",
+        "Cache-control": "max-age=0"
+      });
+    response.end(JSON.stringify({data:[7.0,6.9,9.5,14.5,18.2,21.5,25.2,26.5,23.3,18.3,13.9,9.6]}));
+    return;
+  }
+
+//
 // tell the server to quit, in case you'd ever want to do that...
 //
   if ( request.url == "/quit" ) {
