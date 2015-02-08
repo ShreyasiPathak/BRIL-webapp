@@ -1,5 +1,5 @@
 //
-// This is a module for faking data for the OTHER2 detector, for demo purposes.
+// This is a module for faking data for the Zoomable Time-series chart, for demo purposes.
 //
 var u = require("./util");
 
@@ -9,13 +9,13 @@ var getData = function() {
 // but modulated to look more interesting
 //
   var i, j, data = {
-    OTHER2:[]
+    ZTS:[]
   }, N=1000;
   var dips=100, width=10;
-  data.OTHER2 = u.gaussian(1000,10,N)
+  data.ZTS = u.gaussian(1000,10,N)
   for ( i=0; i<N+width; i+=dips ) {
     for ( j=0; j<width; j++ ) {
-      data.OTHER2[i+j] *= (j%width)/width;
+      data.ZTS[i+j] *= (j%width)/width;
     }
   }
   return(data);
@@ -34,5 +34,5 @@ module.exports = {
     logVerbose(now(),JSON.stringify(res));
     response.end(JSON.stringify(res));
   },
-  path: [ "/get/other2/data" ]
+  path: [ "/get/zoomable_time_series/data" ]
 };

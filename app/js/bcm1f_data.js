@@ -5,6 +5,7 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
   me: 'bcm1f', // put the name of the object here too. Makes the rest of the code more generic
 
   activeButton:null, // holds 'loading' state of 'Single refresh' button
+  animate: true,
 
   get: function() {
     var url = baseUrl + "/get/" + this.me + "/data";
@@ -84,7 +85,7 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
           borderWidth: 0
         },
         series: {
-          animation: animate,
+          animation: this.animate,
           cursor: 'pointer',
           events: {
             click: function(event) {
@@ -109,7 +110,7 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
 // Back to routine stuff. You shouldn't need to change much here...
 //
 // Disable animations after the first load. They get boring quickly...
-    animate = false;
+    this.animate = false;
   }, // successGet
 
   start: function() {

@@ -1,8 +1,8 @@
 //
-// Fetch and display data for a 'Basic area' chart
+// Fetch and display data for a 'Zoomable Time-series' chart
 //
-var basic_area = { // this is a global object, so pick a name that represents your view uniquely
-  me: 'basic_area', // put the name of the object here too. Makes the rest of the code more generic
+var zoomable_time_series = { // this is a global object, so pick a name that represents your view uniquely
+  me: 'zoomable_time_series', // put the name of the object here too. Makes the rest of the code more generic
 
   activeButton:null, // holds 'loading' state of 'Single refresh' button
   animate: true,
@@ -49,9 +49,14 @@ console.log(data);
 //  the code here, and manipulate it until it shows your data the way you like.
 //
   var char = new Highcharts.Chart({
-    chart: { renderTo: this.me+'-chart', type: 'area' },
-    title: { text: 'BASIC_AREA chart demo' },
-    subtitle: { text: getFormattedDate() },
+    chart: { renderTo: this.me+'-chart', zoomType: 'x' },
+    title: { text: 'Zoomable Time-series' },
+    // subtitle: { text: getFormattedDate() },
+    subtitle: {
+        text: document.ontouchstart === undefined ?
+                'Click and drag in the plot area to zoom in' :
+                'Pinch the chart to zoom in'
+    },
     exporting: {
       buttons: {
         contextButton: {
@@ -62,49 +67,46 @@ console.log(data);
       },
     },
     xAxis: {
-      allowDecimals: false,
-      labels: {
-        formatter: function () {
-          return this.value; // clean, unformatted number
-        }
-      }
+        type: 'datetime',
+        minRange: 10 * 1000 // milliseconds
     },
     yAxis: {
-      title: {
-        text: 'y-axis of some sort'
-      },
-      labels: {
-        formatter: function () {
-          return this.value / 1000 + 'k';
+        title: {
+            text: 'Something or other...'
         }
-      }
     },
-    tooltip: {
-      pointFormat: '{series.name} value <b>{point.y:,.0f}</b>'
+    legend: {
+        enabled: false
     },
     plotOptions: {
-      area: {
-        pointStart: 0,
-        marker: {
-          enabled: false,
-          symbol: 'circle',
-          radius: 2,
-          states: {
-            hover: {
-              enabled: true
-            }
-          }
+        area: {
+            fillColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                stops: [
+                    [0, Highcharts.getOptions().colors[0]],
+                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                ]
+            },
+            marker: {
+                radius: 2
+            },
+            lineWidth: 1,
+            states: {
+                hover: {
+                    lineWidth: 1
+                }
+            },
+            threshold: null
         }
-      }
     },
+
     series: [{
-      animation: this.animate,
-      name: 'Channel 1',
-      data: data.BASIC_AREA_1,
-    }, {
-      animation: this.animate,
-      name: 'Channel 2',
-      data: data.BASIC_AREA_2,
+        animation: this.animate,
+        type: 'area',
+        name: 'Fake data',
+        pointInterval: 1000, // milliseconds
+        pointStart: Date.UTC(2015, 0, 1),
+        data: data.ZTS
     }]
   });
 

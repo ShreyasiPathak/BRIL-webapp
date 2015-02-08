@@ -3,7 +3,6 @@
 var views = []; // an array of view-handlers, each view registers here when it's loaded
 
 var timers = [], // global array of timers, so I can cancel them all on page-switch
-    animate = true,
     baseUrl = document.location.protocol + "//" + document.location.hostname;
 if ( document.location.port ) { baseUrl += ":" + document.location.port; }
 
@@ -54,7 +53,7 @@ var activeView; // record which view is active
 var setView = function(view) {
 // toggle between views
   console.log("switch to view",view);
-  var buttons = [ 'bcm1f', 'basic_area' ],
+  var buttons = [ 'bcm1f', 'basic_area', 'zoomable_time_series' ],
       i, b;
 
 // clear all timers running in the current view
@@ -74,9 +73,9 @@ var setView = function(view) {
   if ( view == 'basic_area' ) {
     basic_area.start();
   }
-  // if ( view == 'other2' ) {
-  //   getOther2Data();
-  // }
+  if ( view == 'zoomable_time_series' ) {
+    zoomable_time_series.start();
+  }
   activeView = view;
   console.log("done switch to view",view);
 };
