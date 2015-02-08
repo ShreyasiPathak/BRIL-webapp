@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+var u = require("../demo/util");
+global.now = u.now; // make 'now' accessible in loaded modules
+
 var argv = require("optimist").argv,
     defaultConfigFile = "config.json";
 if ( argv.h || argv.help ) {
@@ -10,20 +13,13 @@ if ( argv.h || argv.help ) {
   process.exit(0);
 }
 
+console.log(now(),"Starting");
+
 //
 // BRIL monitor server application.
 // No user-serviceable parts here, i.e. this is entirely framework and
 // nothing relates to the views or data served by the app
 //
-function now(date) {
-  if ( !date ) { date = new Date(); }
-  var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
-            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":";
-  return str;
-};
-console.log(now(),"Starting");
-global.now = now; // make 'now' accessible in loaded modules
-
 var http = require("http"),
     fs   = require("fs"), // used for watching the config file for changes
     config, configFile = (argv.config || argv.c || defaultConfigFile),
@@ -169,3 +165,25 @@ var server = http.createServer( function(request,response) {
 server.listen(config.port,config.host,function() {
   console.log(now(),"Listening on " + config.host + ":" + config.port);
 });
+
+//
+// How to to a 'GET' from Node.js
+//
+// var http=require('http');
+
+// //make the request object
+// var request=http.request({
+//   'host': 'localhost',
+//   'port': 80,
+//   'path': '/',
+//   'method': 'GET'
+// });
+
+// //assign callbacks
+// request.on('response', function(response) {
+//    console.log('Response status code:'+response.statusCode);
+
+//    response.on('data', function(data) {
+//      console.log('Body: '+data);
+//    });
+// });

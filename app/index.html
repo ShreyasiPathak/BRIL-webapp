@@ -58,9 +58,9 @@
     <!-- this is the LHS navigation/status menu -->
     <div class="row">
       <div class="col-md-3">
-        <div>Run Number: <span id="runnumber"></span></div>
+        <div>Run Number: <span id="bcm1f_runnumber"></span></div>
         <div>Tag: <span id="bcm1f_tagname"></span></div>
-        <div id="currenttime"></div>
+        <div id="bcm1f_currenttime"></div>
         <div id="select-views" style="padding: 5px 0">
           <div class="select-view-div">
             <button type="submit" class="btn btn-primary" id="view-bcm1f">View BCM1F</button>
@@ -164,7 +164,7 @@
       <div class="col-md-6"></div>
       <div class="col-md-3">
         <div class="btn-group" role="group">
-          <button class="btn btn-primary" id="get_bcm1f_data" role="button" data-loading-text="Loading...">Single refresh</button>
+          <button class="btn btn-primary" id="bcm1f_single_refresh" role="button" data-loading-text="Loading...">Single refresh</button>
           <button class="btn btn-primary" id="bcm1f_auto_refresh" role="button" data-toggle="button" aria-pressed="false" style="margin-left: 4px">Start auto-refresh</button>
         </div>
       </div>
@@ -214,7 +214,7 @@
     <script src="js/vendor/highcharts.js"></script>
     <script src="js/vendor/exporting.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
-    <script src="js/utility.js"></script> <!-- various utility functions -->
+    <script src="js/utility.js"></script> <!-- various utility functions & global variables -->
     <script src="js/bcm1f_data.js"></script> <!-- BCM1f display code -->
     <script src="js/bcm1f_mask.js"></script> <!-- BCM1f mask-handling code -->
     <script src="js/other1_data.js"></script> <!-- OTHER1-handling code -->

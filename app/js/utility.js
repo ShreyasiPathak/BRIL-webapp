@@ -1,5 +1,7 @@
 // some global variables, tsk tsk...
 
+var views = []; // an array of view-handlers, each view registers here when it's loaded
+
 var timers = [], // global array of timers, so I can cancel them all on page-switch
     animate = true,
     baseUrl = document.location.protocol + "//" + document.location.hostname;
@@ -61,7 +63,7 @@ var setView = function(view) {
   }
 
   if ( view == 'bcm1f' ) {
-    getBcm1fData();
+    bcm1f.getData();
     getBcm1fMask();
   }
   if ( view == 'other1' ) {
@@ -72,4 +74,11 @@ var setView = function(view) {
   }
   activeView = view;
   console.log("done switch to view",view);
+};
+
+function now(date) {
+  if ( !date ) { date = new Date(); }
+  var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
+            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":";
+  return str;
 };

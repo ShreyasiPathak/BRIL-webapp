@@ -50,7 +50,7 @@ module.exports = {
         data[row.detector][row.channel-1] = row.masked;
       },
       function(err,rows) { // completion callback
-        logVerbose(now(),JSON.stringify(data));
+        logVerbose(now()+JSON.stringify(data));
         response.end(JSON.stringify(data));
       }
     );

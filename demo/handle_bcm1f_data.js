@@ -13,7 +13,7 @@ var getData = function() {
   for ( i=0; i<detectors.length; i++ ) {
     data[detectors[i]] = u.gaussian(100,10,12); // mean, sigma, count
   }
-  console.log(data);
+  console.log(u.now(),data);
   return(data);
 };
 

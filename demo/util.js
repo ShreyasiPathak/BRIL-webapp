@@ -1,6 +1,3 @@
-//
-// generate gaussian random numbers, approximated by a Box-Muller transform
-//
 var gaussian1 = function(x1,x2,mean,sigma) {
   z = Math.sqrt(-2 * Math.log(x1)) * Math.cos( 2 * Math.PI * x2 );
   return(Math.round(mean + sigma * z));
@@ -11,6 +8,9 @@ var gaussian2 = function(x1,x2,mean,sigma) {
 }
 
 module.exports = {
+//
+// generate gaussian random numbers, approximated by a Box-Muller transform
+//
   gaussian: function(mean,sigma,N) {
     var data = [], u1, u2;
     for ( var i=0; i<Math.floor(N/2); i++ ) {
@@ -25,5 +25,15 @@ module.exports = {
       data.push(gaussian1(u1,u2,mean,sigma));
     }
     return data;
+  },
+
+//
+// Current time (or a time you specify), formatted nicely
+//
+  now: function(date) {
+    if ( !date ) { date = new Date(); }
+    var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
+              date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":";
+    return str;
   }
 }
