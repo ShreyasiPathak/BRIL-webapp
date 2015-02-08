@@ -1,5 +1,5 @@
 //
-// This is a module for faking data for the OTHER1 detector, for demo purposes.
+// This is a module for faking data for a Basic Area plot, for demo purposes.
 //
 var u = require("./util");
 
@@ -10,18 +10,15 @@ var getData = function() {
 // visual interest
 //
   var i, data = {
-    OTHER1_1:[],
-    OTHER1_2:[]
+    BASIC_AREA_1:[],
+    BASIC_AREA_2:[]
   }, N=50;
 
-  data.OTHER1_1 = u.gaussian(100,10,N);
-  for ( i=0; i<N; i++ ) {
-    data.OTHER1_1[i] *= i/N;
-  }
-  data.OTHER1_2 = u.gaussian(120,10,N);
-  for ( i=0; i<N; i++ ) {
-    data.OTHER1_2[i] *= (N-i)/N;
-  }
+  data.BASIC_AREA_1 = u.gaussian(100,10,N);
+  for ( i=0; i<N; i++ ) { data.BASIC_AREA_1[i] *= i/N; }
+  data.BASIC_AREA_2 = u.gaussian(120,10,N);
+  for ( i=0; i<N; i++ ) { data.BASIC_AREA_2[i] *= (N-i)/N; }
+
   return(data);
 };
 
@@ -38,5 +35,5 @@ module.exports = {
     logVerbose(JSON.stringify(res));
     response.end(JSON.stringify(res));
   },
-  path: [ "/get/other1/data" ]
+  path: [ "/get/basic_area/data" ]
 };

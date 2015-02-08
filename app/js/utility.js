@@ -45,11 +45,16 @@ var saveJSON = function(filename,data){
   document.body.removeChild(a);
 };
 
+ajaxFail = function(el,jqXHR,textStatus) {
+  setFadeMessage(el,"Ajax call failed: status="+jqXHR.status+" ("+textStatus+")",
+               "bg-danger",null,10000);
+};
+
 var activeView; // record which view is active
 var setView = function(view) {
 // toggle between views
   console.log("switch to view",view);
-  var buttons = [ 'bcm1f', 'other1', 'other2' ],
+  var buttons = [ 'bcm1f', 'basic_area' ],
       i, b;
 
 // clear all timers running in the current view
@@ -63,15 +68,15 @@ var setView = function(view) {
   }
 
   if ( view == 'bcm1f' ) {
-    bcm1f.getData();
-    getBcm1fMask();
+    bcm1f.start();
+    bcm1f_mask.get();
   }
-  if ( view == 'other1' ) {
-    getOther1Data();
+  if ( view == 'basic_area' ) {
+    basic_area.start();
   }
-  if ( view == 'other2' ) {
-    getOther2Data();
-  }
+  // if ( view == 'other2' ) {
+  //   getOther2Data();
+  // }
   activeView = view;
   console.log("done switch to view",view);
 };

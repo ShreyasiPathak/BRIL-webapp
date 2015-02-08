@@ -58,20 +58,25 @@
     <!-- this is the LHS navigation/status menu -->
     <div class="row">
       <div class="col-md-3">
-        <div>Run Number: <span id="bcm1f_runnumber"></span></div>
-        <div>Tag: <span id="bcm1f_tagname"></span></div>
-        <div id="bcm1f_currenttime"></div>
         <div id="select-views" style="padding: 5px 0">
           <div class="select-view-div">
-            <button type="submit" class="btn btn-primary" id="view-bcm1f">View BCM1F</button>
+            <button type="submit" class="btn btn-primary" id="view-bcm1f">BCM1F</button>
           </div>
           <div class="select-view-div">
-            <button type="submit" class="btn btn-primary" id="view-other1">Another view</button>
+            <button type="submit" class="btn btn-primary" id="view-basic_area">Basic Area chart</button>
           </div>
           <div class="select-view-div">
-            <button type="submit" class="btn btn-primary" id="view-other2">Yet another view</button>
+            <button type="submit" class="btn btn-primary" id="view-zoomable-time-series">Zoomable time series</button>
           </div>
-        </div>
+
+          <!-- TEMPLATE: Copy this div and change /my_view/ to the name of your view. -->
+          <!-- TEMPLATE: Also change 'My View' to the label you want to see on-screen
+          <div class="select-view-div">
+            <button type="submit" class="btn btn-primary" id="view-my_view">My View</button>
+          </div>
+            end of TEMPLATE -->
+        </div> <!-- select-views -->
+
       </div> <!-- col-md-3 -->
 
       <div class="col-md-9"> <!-- messy: need separate divs for each sub-view nested here
@@ -148,59 +153,104 @@
               </div><!-- /input-group -->
 
             </div><!--  // mask-management -->
-            <button type="submit" class="btn btn-default" id="bcm1f-mask-channels">Mask selected channels</button>
-            <span id="bcm1f-mask-message" style="padding:10px 20px"></span>
+            <button type="submit" class="btn btn-default" id="bcm1f_mask-channels">Mask selected channels</button>
+            <span id="bcm1f_mask-message" style="padding:10px 20px"></span>
           </form> <!-- end of BCM1f mask-management form -->
         </div> <!-- bcm1f -->
 
-        <div class="other1"></div> <!-- other1 controls -->
-        <div class="other2"></div> <!-- other2 controls -->
+        <div class="basic_area"></div> <!-- basic_area controls -->
+        <div class="zoomable_time_series"></div> <!-- zoomable_time_series controls -->
+
+        <!-- TEMPLATE: Copy this div and change my_view to the name of your view -->
+        <!-- TEMPLATE: This div is used for controls above the view, like the BCM1F demo
+        <div class="my_view"></div> 
+        end of TEMPLATE -->
 
       </div> <!-- col-md-9 -->
-    </div> <!-- /row -->
+    </div> <!-- row -->
 
     <div class="row bcm1f"><!-- holds the buttons for refreshing the BCM1F data -->
       <div class="col-md-3"></div>
-      <div class="col-md-6"></div>
+      <div class="col-md-6">            <span id="bcm1f_mask-tagname"></span>
+</div>
       <div class="col-md-3">
         <div class="btn-group" role="group">
           <button class="btn btn-primary" id="bcm1f_single_refresh" role="button" data-loading-text="Loading...">Single refresh</button>
           <button class="btn btn-primary" id="bcm1f_auto_refresh" role="button" data-toggle="button" aria-pressed="false" style="margin-left: 4px">Start auto-refresh</button>
         </div>
       </div>
-    </div> <!-- /row -->
-
+    </div> <!-- row bcm1f -->
     <div class="row bcm1f"><!-- this is where the main chart goes -->
       <div class="col-md-3"></div>
       <div class="col-md-9">
         <div id="bcm1f-chart" class="chart"></div>
         <div id="bcm1f-chart-message" class="chart-selected-message"></div>
       </div>
-    </div> <!-- /row -->
+    </div> <!-- row bcm1f -->
 
-    <div class="row other1"><!-- this is where the main chart goes -->
+    <div class="row basic_area"><!-- holds the buttons for refreshing the Basic Area data -->
+      <div class="col-md-3"></div>
+      <div class="col-md-6"></div>
+      <div class="col-md-3">
+        <div class="btn-group" role="group">
+          <button class="btn btn-primary" id="basic_area_single_refresh" role="button" data-loading-text="Loading...">Single refresh</button>
+          <button class="btn btn-primary" id="basic_area_auto_refresh" role="button" data-toggle="button" aria-pressed="false" style="margin-left: 4px">Start auto-refresh</button>
+        </div>
+      </div>
+    </div> <!-- row basic_area -->
+    <div class="row basic_area"><!-- this is where the main chart goes -->
       <div class="col-md-3"></div>
       <div class="col-md-9">
-        <div id="other1-chart" class="chart"></div>
-        <div id="other1-chart-message" class="chart-selected-message"></div>
+        <div id="basic_area-chart" class="chart"></div>
+        <div id="basic_area-chart-message" class="chart-selected-message"></div>
       </div>
-    </div> <!-- other1 -->
+    </div> <!-- row basic_area -->
 
-    <div class="row other2"><!-- this is where the main chart goes -->
+    <div class="row zoomable_time_series"><!-- holds the buttons for refreshing the Zoomable Time-series data -->
+      <div class="col-md-3"></div>
+      <div class="col-md-6"></div>
+      <div class="col-md-3">
+        <div class="btn-group" role="group">
+          <button class="btn btn-primary" id="zoomable_time_series_single_refresh" role="button" data-loading-text="Loading...">Single refresh</button>
+          <button class="btn btn-primary" id="zoomable_time_series_auto_refresh" role="button" data-toggle="button" aria-pressed="false" style="margin-left: 4px">Start auto-refresh</button>
+        </div>
+      </div>
+    </div> <!-- row zoomable_time_series -->
+    <div class="row zoomable_time_series"><!-- this is where the main chart goes -->
       <div class="col-md-3"></div>
       <div class="col-md-9">
-        <div id="other2-chart" class="chart"></div>
-        <div id="other2-chart-message" class="chart-selected-message"></div>
+        <div id="zoomable_time_series-chart" class="chart"></div>
+        <div id="zoomable_time_series-chart-message" class="chart-selected-message"></div>
       </div>
-    </div> <!-- other1 -->
+    </div> <!-- row zoomable_time_series -->
+
+    <!-- TEMPLATE: Copy from here to 'end of TEMPLATE' and replace my_view with the name of your view -->
+    <div class="row my_view"><!-- holds the buttons for refreshing the My View data -->
+      <div class="col-md-3"></div>
+      <div class="col-md-6"></div>
+      <div class="col-md-3">
+        <div class="btn-group" role="group">
+          <button class="btn btn-primary" id="my_view_single_refresh" role="button" data-loading-text="Loading...">Single refresh</button>
+          <button class="btn btn-primary" id="my_view_auto_refresh" role="button" data-toggle="button" aria-pressed="false" style="margin-left: 4px">Start auto-refresh</button>
+        </div>
+      </div>
+    </div> <!-- row my_view -->
+    <div class="row my_view"><!-- this is where the main chart goes -->
+      <div class="col-md-3"></div>
+      <div class="col-md-9">
+        <div id="my_view-chart" class="chart"></div>
+        <div id="my_view-chart-message" class="chart-selected-message"></div>
+      </div>
+    </div> <!-- row my_view -->
+    <!-- end of TEMPLATE -->
 
     </div> <!-- /container -->
 
     <div class="row">
       <footer>
-        <p>&copy; CMS 2014</p>
+        <!-- <p>&copy; CMS 2014</p> -->
       </footer>
-    </div> <!-- /row -->
+    </div> <!-- row -->
 
     <!-- serve the application javascript files here -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -217,8 +267,13 @@
     <script src="js/utility.js"></script> <!-- various utility functions & global variables -->
     <script src="js/bcm1f_data.js"></script> <!-- BCM1f display code -->
     <script src="js/bcm1f_mask.js"></script> <!-- BCM1f mask-handling code -->
-    <script src="js/other1_data.js"></script> <!-- OTHER1-handling code -->
-    <script src="js/other2_data.js"></script> <!-- OTHER2-handling code -->
+    <script src="js/demo_basic_area.js"></script> <!-- basic_area display code -->
+    <script src="js/demo_zoomable_time_series.js"></script> <!-- Zoomable Time-series display code -->
+    <!-- TEMPLATE: add your javascript file here. Change my_view to the name of your view -->
+    <!-- TEMPLATE: don't forget to remove the '!-- ' from the start of script declaration! -->
+    <!-- TEMPLATE: (don't remove the closing comment on the same line, that one should be there!) -->
+    <!-- script src="js/my_view.js"></script> <!-- my_view display code -->
+    <!-- end of TEMPLATE: -->
     <script src="js/main.js"></script> <!-- main program driver -->
   </body>
 </html>
