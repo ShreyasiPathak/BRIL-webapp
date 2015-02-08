@@ -1,13 +1,14 @@
 (function(){ // this is the main application
   console.log("Starting...");
 
+
   for (var i=0; i<views.length; i++) {
     var view = views[i], handler;
     console.log("View: ",view.me);
+    addView(view.me);
 
     handler = function(v) {
       return function(event) {
-        debugger;
         event.preventDefault();
         setView(v);
       };
@@ -25,4 +26,5 @@
   }
 
   setView(view);
+
 })();

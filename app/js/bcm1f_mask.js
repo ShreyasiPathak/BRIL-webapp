@@ -73,7 +73,7 @@ bcm1f_mask = {
       event.preventDefault();
       $("#"+obj.me+"-channels").button().prop('disabled', true);
       var i, id, detector, channel, masked, nSelected,
-        checkboxes = $('#mask-management input:checkbox:checked'),
+        checkboxes = $('#'+obj.me+'-management input:checkbox:checked'),
         mask = {
           BCM1F_1:[0,0,0,0,0,0,0,0,0,0,0,0],
           BCM1F_2:[0,0,0,0,0,0,0,0,0,0,0,0],

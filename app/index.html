@@ -53,13 +53,13 @@
 
 <hr>
 
-  <div class="container">
+  <div class="container" id="chart-container">
 
     <!-- this is the LHS navigation/status menu -->
     <div class="row">
       <div class="col-md-3">
         <div id="select-views" style="padding: 5px 0">
-          <div class="select-view-div">
+<!--           <div class="select-view-div">
             <button type="submit" class="btn btn-primary" id="view-bcm1f">BCM1F</button>
           </div>
           <div class="select-view-div">
@@ -71,7 +71,7 @@
           <div class="select-view-div">
             <button type="submit" class="btn btn-primary" id="view-line_graph">Line graph</button>
           </div>
-
+ -->
           <!-- TEMPLATE: Copy this div to just above and change /my_view/ to the name of your view. -->
           <!-- TEMPLATE: Also change 'My View' to the label you want to see on-screen
           <div class="select-view-div">
@@ -83,11 +83,11 @@
 
       </div> <!-- col-md-3 -->
 
-      <div class="col-md-9"> <!-- messy: need separate divs for each sub-view nested here
-                                  because format is row-oriented, not column-oriented -->
+      <div class="col-md-9" id='#control-panel'> <!-- messy: need separate divs for each sub-view
+                                  nested here because format is row-oriented, not column-oriented -->
         <div class="bcm1f">
           <form> <!-- the form for managing the BCM1F masks -->
-            <div id="mask-management" class="form-group">
+            <div id="bcm1f_mask-management" class="form-group">
               <div class="input-group" id="BCM1F_1Mask" class="pull-left">
                 <span class="input-group-addon">BCM1F_1:
                   <label class="checkbox-inline"><input id="BCM1F_1-1" type="checkbox">1&nbsp;&nbsp;</input></label>
@@ -162,9 +162,9 @@
           </form> <!-- end of BCM1f mask-management form -->
         </div> <!-- bcm1f -->
 
-        <div class="basic_area"></div> <!-- basic_area controls -->
-        <div class="zoomable_time_series"></div> <!-- zoomable_time_series controls -->
-        <div class="line_graph"></div> 
+        <!-- <div class="basic_area"></div> <!-- basic_area controls -->
+        <!-- <div class="zoomable_time_series"></div> <!-- zoomable_time_series controls -->
+        <!-- <div class="line_graph"></div> -->
 
         <!-- TEMPLATE: Copy this div to just above and change my_view to the name of your view -->
         <!-- TEMPLATE: This div is used for controls above the view, like the BCM1F demo
@@ -176,8 +176,7 @@
 
     <div class="row bcm1f"><!-- holds the buttons for refreshing the BCM1F data -->
       <div class="col-md-3"></div>
-      <div class="col-md-6">            <span id="bcm1f_mask-tagname"></span>
-</div>
+      <div class="col-md-6"><span id="bcm1f_mask-tagname"></span></div>
       <div class="col-md-3">
         <div class="btn-group" role="group">
           <button class="btn btn-primary" id="bcm1f_single_refresh" role="button" data-loading-text="Loading...">Single refresh</button>
@@ -267,7 +266,7 @@
     </div> <!-- row my_view -->
     <!-- end of TEMPLATE -->
 
-    </div> <!-- /container -->
+    </div> <!-- container -->
 
     <div class="row">
       <footer>
@@ -290,6 +289,7 @@
     <script src="js/demo_basic_area.js"></script> <!-- basic_area display code -->
     <script src="js/demo_zoomable_time_series.js"></script> <!-- Zoomable Time-series display code -->
     <script src="js/demo_line_graph.js"></script> <!-- line_graph display code -->
+    <script src="js/demo_heatmap.js"></script> <!-- heatmap display code -->
 
     <!-- TEMPLATE: add your javascript file here. Change my_view to the name of your view -->
     <!-- TEMPLATE: don't forget to remove the '!-- ' from the start of script declaration! -->

@@ -13,13 +13,13 @@ prototype web application for BRIL monitoring
 
 2) Edit **app/index.html**, look for the sections labelled '**TEMPLATE**', and follow the instructions there. There are several sections that need copying and editing.
 
-3) Copy **app/js/demo\_template.js** to **app/js/my\_view.js**. Edit your new file and change **'my_view'** to the name of your view everywhere.
+3) Copy **app/js/demo\_template.js** to **app/js/my\_view.js** (using the correct name instead of **my\_view**, of course). Edit your new file and change **'my_view'** to the name of your view everywhere.
 
 At this point you should have a basic working app. The **demo_template.js** file you copied does contact the server for data, but it only fetches a fixed array of test data that happens to match this plot well. This lets you get a working plot first, before fussing with the server.
 
 4) You can test your app by running **node server/server.js** from the command-line, then go to **http://localhost:9234/** in your browser and you should see the interface. If all went well, there is a button there for your view, and when you click on it you should get a graph of average temperatures in Tokyo throughout the year.
 
-5) So far, so good. Now go to **http://www.highcharts.com/demo**, pick a plot you like, click on '**edit in jsfiddle**', and copy the code from there. Paste that code over the chart object below (between '// TEMPLATE CHART' comments).
+5) So far, so good. Now go to **http://www.highcharts.com/demo**, pick a plot you like, click on '**edit in jsfiddle**', and copy the code from there. Paste that code over the chart object in your JavaScript file (between '// TEMPLATE CHART' comments).
 
 Reload your browser window and look at your view, it should reproduce the demo correctly.
 
