@@ -15,7 +15,7 @@
 }
 
 .chart {
-  min-width: 310px;
+  min-width: 200px;
   height: 400px;
   margin: 0 auto;
 }
@@ -27,4 +27,20 @@
 
 .my_view {
   display: none;
+}
+
+.highlight_red {
+  border: 1px solid red;
+}
+
+.highlight_blue {
+  border: 1px solid blue;
+}
+
+.highlight_green {
+  border: 1px solid green;
+}
+
+.highlight_yellow {
+  border: 1px solid yellow;
 }

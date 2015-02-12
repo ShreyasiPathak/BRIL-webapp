@@ -54,7 +54,7 @@ bcm1f_mask = {
     console.log("Got BCM1F mask successfully");
 
 //  show the tag name we just got
-    $("#"+this.me+"-tagname").text("Tag: "+response.tagName);
+    $("#bcm1f-subtitle").text("Tag: "+response.tagName);
 
 //  update the displayed checkboxes to match the returned values
     for ( var i=1; i<=4; i++ ) {

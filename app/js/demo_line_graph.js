@@ -9,7 +9,7 @@ var line_graph = { // this is a global object, so pick a name that represents yo
 
   get: function() {
     var url;
-    url = baseUrl + "/get/test/data";
+    url = baseUrl + "/get/"+this.me+"/data";
 //  TEMPLATE: use the test URL initially, but replace it with the following line when you have
 //  your data-source working correctly.
     // url = baseUrl + "/get/" + this.me + "/data";
@@ -84,7 +84,7 @@ var line_graph = { // this is a global object, so pick a name that represents yo
       series: [{
           animation: this.animate,
           name: 'Tokyo',
-          data: data // the test-data just happens to match correctly here :-)
+          data: data.line_graph // the test-data just happens to match correctly here :-)
 //          data: data.my_view // TEMPLATE: put your data here!
       }]
     }
@@ -99,55 +99,20 @@ var line_graph = { // this is a global object, so pick a name that represents yo
   }, // successGet
 
   start: function() {
+    this.handlers();
     $('#'+this.me+'_single_refresh').button().prop('disabled', false);
     $('#'+this.me+'_auto_refresh').button().html("Start auto-refresh");
     this.autoRefreshOn = false;
     this.get();
   },
 
+  handlers: function() {
+    setupHandlers(this);
+    this.handlers = function() {}; // write me out of the picture!
+  },
+
   init: function() {
-    var obj = this; //  use the 'obj' object in click-handlers to make sure the context is correct.
-    var el;
-
     views.push(this); // register this global view object
-
-//  handler for the single-refresh button, if present...
-    if ( el = $('#'+obj.me+'_single_refresh') ) { // only build handler if the element exists!
-      $(el).click(function() {
-        obj.activeButton = $(this).button('loading');
-        obj.get();
-      });
-    }
-
-//  handler for the auto-refresh button, if present...
-    if ( el = $('#'+obj.me+'_auto_refresh') ) { // only build handler if the element exists!
-      this.autoRefreshOn = false;
-      this.autoRefresh = function() {
-    // use the 'obj' object here instead of 'this', because of the setTimeout context issue
-        if ( obj.autoRefreshOn ) {
-          obj.get();
-          timers.push(setTimeout(obj.autoRefresh,1000)); // 'obj' instead of 'this' here too...
-          $('#'+obj.me+'_single_refresh').button().prop('disabled', true); // don't need this every time, but heck...
-        } else {
-          return;
-        }
-      };
-
-      $(el).click(function() {
-        if ( obj.autoRefreshOn ) {
-          console.log("Stopping auto-refresh");
-          $('#'+obj.me+'_single_refresh').button().prop('disabled', false);
-          $('#'+obj.me+'_auto_refresh').button().html("Start auto-refresh");
-          obj.autoRefreshOn = false;
-          return;
-        } else {
-          console.log("Starting auto-refresh");
-          $('#'+obj.me+'_auto_refresh').button().html("Stop auto-refresh");
-          obj.autoRefreshOn = true;
-        }
-        obj.autoRefresh();
-      });
-    }
     return this; // Return 'this' so I can call init() directly, avoiding typing the name one more time!
   }
 }.init();

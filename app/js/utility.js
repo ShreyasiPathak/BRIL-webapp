@@ -93,21 +93,66 @@ var addView = function(me) {
     $('<div class="'+me+'"></div>').appendTo('#control-panel');
   }
 
-  $('<div class="row '+me+'"><!-- holds the buttons for refreshing the '+Me+' data -->' +
+  $('<div class="row '+me+'"><!-- holds the subtitle panel -->' +
     '  <div class="col-md-3"></div>' +
-    '  <div class="col-md-6"></div>' +
+    '  <div class="col-md-6"><div id="'+me+'-subtitle"></div></div>' +
     '  <div class="col-md-3">' +
+    '</div> <!-- row '+me+' -->' +
+
+    '<div class="row '+me+'"><!-- holds the buttons for refreshing the '+me+' data -->' +
+    '  <div class="col-md-8"></div>' +
+    '   <div class="col-md-4">' +
     '    <div class="btn-group" role="group">' +
     '      <button class="btn btn-primary" id="'+me+'_single_refresh" role="button" data-loading-text="Loading...">Single refresh</button>' +
     '      <button class="btn btn-primary" id="'+me+'_auto_refresh" role="button" data-toggle="button" aria-pressed="false" style="margin-left: 4px">Start auto-refresh</button>' +
     '    </div>' +
     '  </div>' +
-    '</div> <!-- row '+me+' -->' +
+    '</div>' +
     '<div class="row '+me+'"><!-- this is where the main chart goes -->' +
-    '  <div class="col-md-3"></div>' +
-    '  <div class="col-md-9">' +
+    '  <div class="col-md-12">' +
     '    <div id="'+me+'-chart" class="chart"></div>' +
     '    <div id="'+me+'-chart-message" class="chart-selected-message"></div>' +
     '  </div>' +
-    '</div> <!-- row '+me+' -->').appendTo('#chart-container');
+    '</div> <!-- row '+me+' -->').appendTo('#rhs');
 };
+
+var setupHandlers = function(obj) {
+    var el;
+
+//  handler for the single-refresh button, if present...
+    if ( el = $('#'+obj.me+'_single_refresh') ) { // only build handler if the element exists!
+      $(el).click(function() {
+        obj.activeButton = $(this).button('loading');
+        obj.get();
+      });
+    }
+
+//  handler for the auto-refresh button, if present...
+    if ( el = $('#'+obj.me+'_auto_refresh') ) { // only build handler if the element exists!
+      obj.autoRefreshOn = false;
+      obj.autoRefresh = function() {
+        if ( obj.autoRefreshOn ) {
+          obj.get();
+          timers.push(setTimeout(obj.autoRefresh,1000));
+          $('#'+obj.me+'_single_refresh').button().prop('disabled', true); // don't need this every time, but heck...
+        } else {
+          return;
+        }
+      };
+
+      $(el).click(function() {
+        if ( obj.autoRefreshOn ) {
+          console.log("Stopping auto-refresh");
+          $('#'+obj.me+'_single_refresh').button().prop('disabled', false);
+          $('#'+obj.me+'_auto_refresh').button().html("Start auto-refresh");
+          obj.autoRefreshOn = false;
+          return;
+        } else {
+          console.log("Starting auto-refresh");
+          $('#'+obj.me+'_auto_refresh').button().html("Stop auto-refresh");
+          obj.autoRefreshOn = true;
+        }
+        obj.autoRefresh();
+      });
+    }  
+}

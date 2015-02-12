@@ -54,41 +54,103 @@ var heatmap = { // this is a global object, so pick a name that represents your 
 //
   var char = new Highcharts.Chart(
 // TEMPLATE CHART
-    {
-      chart: { renderTo: this.me+'-chart' },
-      exporting: {
-        buttons: {
-          contextButton: {
-            enabled: true,
-            text: 'Export data',
-            menuItems: menuItems
-          },
+{
+
+        data: {
+            csv: document.getElementById('csv').innerHTML,
+            parsed: function () {
+                start = +new Date();
+            }
         },
-      },
-      title: { text: 'Monthly Average Temperature' },
-      subtitle: { text: 'Source: WorldClimate.com' },
-      xAxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      },
-      yAxis: {
-          title: { text: 'Temperature (°C)' },
-          plotLines: [{ value: 0, width: 1, color: '#808080' }]
-      },
-      tooltip: { valueSuffix: '°C' },
-      legend: {
-          layout: 'vertical',
-          align: 'right',
-          verticalAlign: 'middle',
-          borderWidth: 0
-      },
-      series: [{
-          animation: this.animate,
-          name: 'Tokyo',
-          data: data // the test-data just happens to match correctly here :-)
-//          data: data.heatmap // TEMPLATE: put your data here!
-      }]
-    }
-// TEMPLATE CHART
+
+        chart: {
+            type: 'heatmap',
+            margin: [60, 10, 80, 50]
+        },
+
+
+        title: {
+            text: 'Highcharts extended heat map',
+            align: 'left',
+            x: 40
+        },
+
+        subtitle: {
+            text: 'Temperature variation by day and hour through 2013',
+            align: 'left',
+            x: 40
+        },
+
+        tooltip: {
+            backgroundColor: null,
+            borderWidth: 0,
+            distance: 10,
+            shadow: false,
+            useHTML: true,
+            style: {
+                padding: 0,
+                color: 'black'
+            }
+        },
+
+        xAxis: {
+            min: Date.UTC(2013, 0, 1),
+            max: Date.UTC(2014, 0, 1),
+            labels: {
+                align: 'left',
+                x: 5,
+                format: '{value:%B}' // long month
+            },
+            showLastLabel: false,
+            tickLength: 16
+        },
+
+        yAxis: {
+            title: {
+                text: null
+            },
+            labels: {
+                format: '{value}:00'
+            },
+            minPadding: 0,
+            maxPadding: 0,
+            startOnTick: false,
+            endOnTick: false,
+            tickPositions: [0, 6, 12, 18, 24],
+            tickWidth: 1,
+            min: 0,
+            max: 23,
+            reversed: true
+        },
+
+        colorAxis: {
+            stops: [
+                [0, '#3060cf'],
+                [0.5, '#fffbbc'],
+                [0.9, '#c4463a'],
+                [1, '#c4463a']
+            ],
+            min: -15,
+            max: 25,
+            startOnTick: false,
+            endOnTick: false,
+            labels: {
+                format: '{value}℃'
+            }
+        },
+
+        series: [{
+            borderWidth: 0,
+            nullColor: '#EFEFEF',
+            colsize: 24 * 36e5, // one day
+            tooltip: {
+                headerFormat: 'Temperature<br/>',
+                pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value} ℃</b>'
+            },
+            turboThreshold: Number.MAX_VALUE // #3404, remove after 4.0.5 release
+        }]
+
+    }// TEMPLATE CHART
   );
 
 //
@@ -99,55 +161,20 @@ var heatmap = { // this is a global object, so pick a name that represents your 
   }, // successGet
 
   start: function() {
+    this.handlers();
     $('#'+this.me+'_single_refresh').button().prop('disabled', false);
     $('#'+this.me+'_auto_refresh').button().html("Start auto-refresh");
     this.autoRefreshOn = false;
     this.get();
   },
 
+  handlers: function() {
+    setupHandlers(this);
+    this.handlers = function() {}; // write me out of the picture!
+  },
+
   init: function() {
-    var obj = this; //  use the 'obj' object in click-handlers to make sure the context is correct.
-    var el;
-
     views.push(this); // register this global view object
-
-//  handler for the single-refresh button, if present...
-    if ( el = $('#'+obj.me+'_single_refresh') ) { // only build handler if the element exists!
-      $(el).click(function() {
-        obj.activeButton = $(this).button('loading');
-        obj.get();
-      });
-    }
-
-//  handler for the auto-refresh button, if present...
-    if ( el = $('#'+obj.me+'_auto_refresh') ) { // only build handler if the element exists!
-      this.autoRefreshOn = false;
-      this.autoRefresh = function() {
-    // use the 'obj' object here instead of 'this', because of the setTimeout context issue
-        if ( obj.autoRefreshOn ) {
-          obj.get();
-          timers.push(setTimeout(obj.autoRefresh,1000)); // 'obj' instead of 'this' here too...
-          $('#'+obj.me+'_single_refresh').button().prop('disabled', true); // don't need this every time, but heck...
-        } else {
-          return;
-        }
-      };
-
-      $(el).click(function() {
-        if ( obj.autoRefreshOn ) {
-          console.log("Stopping auto-refresh");
-          $('#'+obj.me+'_single_refresh').button().prop('disabled', false);
-          $('#'+obj.me+'_auto_refresh').button().html("Start auto-refresh");
-          obj.autoRefreshOn = false;
-          return;
-        } else {
-          console.log("Starting auto-refresh");
-          $('#'+obj.me+'_auto_refresh').button().html("Stop auto-refresh");
-          obj.autoRefreshOn = true;
-        }
-        obj.autoRefresh();
-      });
-    }
     return this; // Return 'this' so I can call init() directly, avoiding typing the name one more time!
   }
 }.init();
