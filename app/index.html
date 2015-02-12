@@ -190,7 +190,9 @@
 
     <script src="js/vendor/jquery-1.11.1.min.js"></script>
     <script src="js/vendor/highcharts.js"></script>
-    <script src="js/vendor/exporting.js"></script>
+    <script src="js/vendor/highcharts-more.js"></script> <!-- needed for wind_rose -->
+    <script src="js/vendor/highcharts-modules-data.js"></script> <!-- needed for wind_rose -->
+    <script src="js/vendor/highcharts-exporting.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/utility.js"></script> <!-- various utility functions & global variables -->
     <script src="js/bcm1f_data.js"></script> <!-- BCM1f display code -->
@@ -198,12 +200,13 @@
     <script src="js/demo_basic_area.js"></script> <!-- basic_area display code -->
     <script src="js/demo_zoomable_time_series.js"></script> <!-- Zoomable Time-series display code -->
     <script src="js/demo_line_graph.js"></script> <!-- line_graph display code -->
+    <script src="js/wind_rose.js"></script>
     <!-- script src="js/demo_heatmap.js"></script> <!-- heatmap display code -->
 
     <!-- TEMPLATE: add your javascript file here. Change my_view to the name of your view -->
     <!-- TEMPLATE: don't forget to remove the '!-- ' from the start of script declaration! -->
     <!-- TEMPLATE: also remove the closing comment on the same line! -->
-    <!-- script src="js/my_view.js"></script> -->
+    <!-- script src="js/my_view.js"></script>
     <!-- end of TEMPLATE: -->
 
     <script src="js/main.js"></script> <!-- main program driver -->
