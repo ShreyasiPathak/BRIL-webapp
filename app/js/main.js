@@ -1,6 +1,5 @@
-(function(){ // this is the main application
+$(document).ready(function(){ // this is the main application
   console.log("Starting...");
-
 
   for (var i=0; i<views.length; i++) {
     var view = views[i], handler;
@@ -26,5 +25,4 @@
   }
 
   setView(view);
-
-})();
+});

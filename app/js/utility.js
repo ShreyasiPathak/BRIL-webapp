@@ -6,7 +6,7 @@ var timers = [], // global array of timers, so I can cancel them all on page-swi
     baseUrl = document.location.protocol + "//" + document.location.hostname;
 if ( document.location.port ) { baseUrl += ":" + document.location.port; }
 
-function getFormattedDate(date) {
+var getFormattedDate = function(date) {
 // helper function, formats the date for human readability
   if ( !date ) { date = new Date(); }
   var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
@@ -14,7 +14,7 @@ function getFormattedDate(date) {
   return str;
 };
 
-var setFadeMessage = function(el,message,bgclass,button,timeout=2000) {
+var setFadeMessage = function(el,message,bgclass,button,timeout) {
 // helper function: set a message banner with a background colour.
 // Leave it visible for a while, then fade it out over a longer time.
 // Re-enable an associated button, if required
@@ -23,6 +23,8 @@ var setFadeMessage = function(el,message,bgclass,button,timeout=2000) {
        .text(message)
        .removeClass( 'bg-success bg-info bg-warning bg-danger' )       // remove any colour classes
        .addClass(bgclass);  // mark it accordingly
+
+  if ( !timeout ) { timeout = 2000; }
   setTimeout( function() {
     if ( button ) { $(button).prop('disabled', false); }
     $(el).animate(
