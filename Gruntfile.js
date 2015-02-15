@@ -34,11 +34,6 @@ module.exports = function(grunt) {
         options: {
           config: "app/eslint-browser.json"
         }
-      },
-
-     options: {
-//      config: "conf/eslint.json",
-//      rulesDir: "conf/rules"
       }
     }
   });
