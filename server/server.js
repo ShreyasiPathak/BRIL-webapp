@@ -1,9 +1,11 @@
 #!/usr/bin/env node
+"use strict";
+
 var u = require("../demo/util");
 global.now = u.now; // make 'now' accessible in loaded modules
 
-var argv = require("optimist").argv,
-    defaultConfigFile = "config.json";
+var argv = require("optimist").argv;
+var defaultConfigFile = "config.json";
 if ( argv.h || argv.help ) {
   console.log("\n",
   "Usage:",argv.$0," {options} where options are:\n",
@@ -21,8 +23,8 @@ console.log(now(),"Starting");
 // nothing relates to the views or data served by the app
 //
 var http = require("http"),
-    fs   = require("fs"), // used for watching the config file for changes
-    config, configFile = (argv.config || argv.c || defaultConfigFile),
+    fs   = require("fs"); // used for watching the config file for changes
+    var config, configFile = (argv.config || argv.c || defaultConfigFile),
     logVerbose,
     logVerboseReal=function() { console.log(arguments); };
 global.logVerbose = logVerbose = logVerboseReal;
@@ -49,7 +51,7 @@ var readConfig = function() {
 };
 readConfig();
 
-fs.watchFile(configFile, function(current, previous) {
+fs.watchFile(configFile, function() {
   console.log(now(),"Config changed");
   readConfig();
 });
@@ -59,8 +61,8 @@ fs.watchFile(configFile, function(current, previous) {
 // config.module_path
 //
 var handler_files = fs.readdirSync(config.module_path),
-    handlers=[], handler;
-for ( var i=0; i < handler_files.length; i++ ) {
+    handlers=[], handler, i, j;
+for ( i=0; i < handler_files.length; i++ ) {
   handler = handler_files[i];
   if ( handler.match('^handle_.*.js$') ) { // N.B. only 'handle_*.js' files here!
     handler = handler.replace(/.js$/,'');
@@ -79,11 +81,11 @@ var server = http.createServer( function(request,response) {
 // If no matching handler is found, fall-through to the next level, which
 // handles basic file-serving. CSS, HTML and all that...
 //
-  for ( var i=0; i<handlers.length; i++ ) {
+  for ( i=0; i<handlers.length; i++ ) {
     handler = handlers[i];
-    for ( var j=0; j<handler.path.length; j++ ) {
+    for ( j=0; j<handler.path.length; j++ ) {
       var path = handler.path[j];
-      if ( request.url == path ) {
+      if ( request.url === path ) {
         var method = path.split('/')[1];
         handler[method](request,response);
         return;
@@ -94,7 +96,7 @@ var server = http.createServer( function(request,response) {
 //
 // trivial test data, just to ease the development path
 //
-  if ( request.url == "/get/test/data" ) {
+  if ( request.url === "/get/test/data" ) {
     console.log(now(),"Sending test data");
     response.writeHead(200,{
         "Content-type":  "application/json",
@@ -107,7 +109,7 @@ var server = http.createServer( function(request,response) {
 //
 // tell the server to quit, in case you'd ever want to do that...
 //
-  if ( request.url == "/quit" ) {
+  if ( request.url === "/quit" ) {
     console.log(now(),"Got a request to quit: Outta here...");
     response.writeHead(200,{"Content-type":"text/plain"});
     response.end("Server exiting at your request");
@@ -121,14 +123,14 @@ var server = http.createServer( function(request,response) {
 //
   var file = request.url;
   file = file.split('?')[0];
-  if ( file == "/" ) {
+  if ( file === "/" ) {
     logVerbose(now(),"Got a request for /");
     file = "/index.html";
   }
 
 //
 // This part serves the app directory, taking care of file-type and caching
-// properties for html, javascript, css and image files. 
+// properties for html, javascript, css and image files.
 //
 // It also handles non-existent files and if-modified-since headers.
 //
@@ -179,7 +181,7 @@ var server = http.createServer( function(request,response) {
     response.setHeader("Last-modified", mtime);
     response.writeHead(200);
     response.end(data);
-  })
+  });
 }); // http.createServer
 
 //

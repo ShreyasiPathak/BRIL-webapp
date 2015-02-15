@@ -1,6 +1,7 @@
 //
 // This is a module for faking data for a Basic Area plot, for demo purposes.
 //
+"use strict";
 var u = require("./util");
 
 var getData = function() {
@@ -19,7 +20,7 @@ var getData = function() {
   data.BASIC_AREA_2 = u.gaussian(120,10,N);
   for ( i=0; i<N; i++ ) { data.BASIC_AREA_2[i] *= (N-i)/N; }
 
-  return(data);
+  return data;
 };
 
 module.exports = {
@@ -30,7 +31,7 @@ module.exports = {
       });
     var res = { // fake data
       data: getData(),
-      timestamp: (new Date).getTime()
+      timestamp: (new Date()).getTime()
     };
     logVerbose(JSON.stringify(res));
     response.end(JSON.stringify(res));

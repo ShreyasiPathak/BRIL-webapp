@@ -1,10 +1,11 @@
+/*eslint strict:0 */
 //
 // Fetch and display BCM1F data
 //
 var bcm1f = { // this is a global object, so pick a name that represents your view uniquely
   me: 'bcm1f', // put the name of the object here too. Makes the rest of the code more generic
 
-  activeButton:null, // holds 'loading' state of 'Single refresh' button
+  activeButton: null, // holds 'loading' state of 'Single refresh' button
   animate: true,
 
   get: function() {
@@ -18,14 +19,14 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
       context: this
     });
   },
-  errorGet: function(response,textStatus,jqXHR) { // callback for handling ajax errors data
+  errorGet: function(response, textStatus, jqXHR) { // callback for handling ajax errors data
     console.log("errorGet: Ajax call failed: status = "+jqXHR.status);
-    console.log("errorGet response:",JSON.stringify(response));
-    console.log("errorGet jqXHR:",JSON.stringify(jqXHR));
-    console.log("errorGet textStatus:",textStatus);
-    ajaxFail("#"+this.me+"-chart-message",jqXHR,textStatus);
+    console.log("errorGet response:", JSON.stringify(response));
+    console.log("errorGet jqXHR:", JSON.stringify(jqXHR));
+    console.log("errorGet textStatus:", textStatus);
+    ajaxFail("#"+this.me+"-chart-message", jqXHR, textStatus);
   },
-  successGet: function(response,textStatus,jqXHR) { // callback for displaying data
+  successGet: function(response) { // , textStatus, jqXHR) { // callback for displaying data
 //  Reset 'loading' state of single-refresh button, if it was active
     if ( this.activeButton ) { this.activeButton.button('reset'); }
 
@@ -41,7 +42,7 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
 //
     var menuItemsOrig = Highcharts.getOptions().exporting.buttons.contextButton.menuItems;
     var menuItems = $.extend([], true, menuItemsOrig);
-    menuItems.push( { text: "Download JSON", onclick: function() { saveJSON('BCM1F data.json',data); } } );
+    menuItems.push( { text: "Download JSON", onclick: function() { saveJSON('BCM1F data.json', data); } } );
 
 //
 //  This is the meat of the plotting functionality.
@@ -49,7 +50,7 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
 //  Choose a chart-type that you like from http://www.highcharts.com/demo, copy
 //  the code here, and manipulate it until it shows your data the way you like.
 //
-    var char = new Highcharts.Chart({
+    this.chart = new Highcharts.Chart({
       // Naming convention: renderTo -> (name-of-this-object) + '-chart'
       chart: { renderTo: this.me+'-chart', type: 'column' },
       title: { text: 'BCM1F channel comparison' },
@@ -60,8 +61,8 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
             enabled: true,
             text: 'Export data',
             menuItems: menuItems
-          },
-        },
+          }
+        }
       },
       xAxis: {
         categories: [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11' ]
@@ -128,7 +129,8 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
     views.push(this); // register this global view object
 
 //  handler for the single-refresh button, if present...
-    if ( el = $('#'+obj.me+'_single_refresh') ) { // only build handler if the element exists!
+    el = $('#'+obj.me+'_single_refresh');
+    if ( el ) { // only build handler if the element exists!
       $(el).click(function() {
         obj.activeButton = $(this).button('loading');
         obj.get();
@@ -136,13 +138,14 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
     }
 
 //  handler for the auto-refresh button, if present...
-    if ( el = $('#'+obj.me+'_auto_refresh') ) { // only build handler if the element exists!
+    el = $('#'+obj.me+'_auto_refresh');
+    if ( el ) { // only build handler if the element exists!
       this.autoRefreshOn = false;
       this.autoRefresh = function() {
     // use the 'obj' object here instead of 'this', because of the setTimeout context issue
         if ( obj.autoRefreshOn ) {
           obj.get();
-          timers.push(setTimeout(obj.autoRefresh,1000)); // 'obj' instead of 'this' here too...
+          timers.push(setTimeout(obj.autoRefresh, 1000)); // 'obj' instead of 'this' here too...
           $('#'+obj.me+'_single_refresh').button().prop('disabled', true); // don't need this every time, but heck...
         } else {
           return;
@@ -158,7 +161,7 @@ var bcm1f = { // this is a global object, so pick a name that represents your vi
           return;
         } else {
           console.log("Starting auto-refresh");
-          $('#'+obj.me+'_auto_refresh').button().html("Stop auto-refresh");
+          $('#' + obj.me + '_auto_refresh').button().html("Stop auto-refresh");
           obj.autoRefreshOn = true;
         }
         obj.autoRefresh();

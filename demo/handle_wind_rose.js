@@ -7,6 +7,7 @@
 //
 // The rest is boilerplate, you shouldn't need to touch it
 //
+"use strict";
 var u = require("./util");
 
 var getData = function() {
@@ -42,7 +43,7 @@ var getData = function() {
       data.wind_rose[i][j] += noise[k++]/10;
     }
   }
-  return(data);
+  return data;
 };
 
 module.exports = {

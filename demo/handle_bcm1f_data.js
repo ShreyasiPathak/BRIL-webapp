@@ -1,7 +1,7 @@
 //
 // This is a module for faking data for the BCM1F detector, for demo purposes.
 //
-
+"use strict";
 var u = require("./util");
 
 //
@@ -14,7 +14,7 @@ var getData = function() {
     data[detectors[i]] = u.gaussian(100,10,12); // mean, sigma, count
   }
   console.log(u.now(),data);
-  return(data);
+  return data;
 };
 
 module.exports = {
@@ -26,7 +26,7 @@ module.exports = {
     var res = { // fake data generated here...
       data: getData(),
       runNumber: 1234567,
-      timestamp: (new Date).getTime()
+      timestamp: (new Date()).getTime()
     };
     // logVerbose(now(),JSON.stringify(res));
     response.end(JSON.stringify(res));

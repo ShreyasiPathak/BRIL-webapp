@@ -1,25 +1,26 @@
 $(document).ready(function(){ // this is the main application
+  "use strict";
   console.log("Starting...");
 
-  for (var i=0; i<views.length; i++) {
-    var view = views[i], handler;
-    console.log("View: ",view.me);
-    addView(view.me);
-
-    handler = function(v) {
-      return function(event) {
-        event.preventDefault();
-        setView(v);
-      };
+  var handler = function(v) {
+    return function(event) {
+      event.preventDefault();
+      setView(v);
     };
+  };
+
+  for (var i=0; i<views.length; i++) {
+    var view = views[i];
+    console.log("View: ", view.me);
+    addView(view.me);
     $('#view-'+view.me ).button().click( handler(view.me) );
     $('.'+view.me).toggle();
   }
 
-  var view = document.location.search;
+  view = document.location.search;
   if ( view ) {
     view = view.split('?view=')[1];
-    console.log("Set initial view to ",view);
+    console.log("Set initial view to ", view);
   } else {
     view = "bcm1f";
   }

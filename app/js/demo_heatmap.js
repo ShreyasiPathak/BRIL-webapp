@@ -1,10 +1,11 @@
+/*eslint strict:0 */
 //
 // Fetch and display data for a 'heatmap' chart
 //
 var heatmap = { // this is a global object, so pick a name that represents your view uniquely
   me: 'heatmap', // put the name of the object here too. Makes the rest of the code more generic
 
-  activeButton:null, // holds 'loading' state of 'Single refresh' button
+  activeButton: null, // holds 'loading' state of 'Single refresh' button
   animate: true,
 
   get: function() {
@@ -23,14 +24,14 @@ var heatmap = { // this is a global object, so pick a name that represents your 
       context: this
     });
   },
-  errorGet: function(response,textStatus,jqXHR) { // callback for handling ajax errors data
+  errorGet: function(response, textStatus, jqXHR) { // callback for handling ajax errors data
     console.log("errorGet: Ajax call failed: status = "+jqXHR.status);
-    console.log("errorGet response:",JSON.stringify(response));
-    console.log("errorGet jqXHR:",JSON.stringify(jqXHR));
-    console.log("errorGet textStatus:",textStatus);
-    ajaxFail("#"+this.me+"-chart-message",jqXHR,textStatus);
+    console.log("errorGet response:", JSON.stringify(response));
+    console.log("errorGet jqXHR:", JSON.stringify(jqXHR));
+    console.log("errorGet textStatus:", textStatus);
+    ajaxFail("#"+this.me+"-chart-message", jqXHR, textStatus);
   },
-  successGet: function(response,textStatus,jqXHR) { // callback for displaying data
+  successGet: function(response) { // , textStatus, jqXHR) { // callback for displaying data
 //  Reset 'loading' state of single-refresh button, if it was active
     if ( this.activeButton ) { this.activeButton.button('reset'); }
 
@@ -44,7 +45,7 @@ var heatmap = { // this is a global object, so pick a name that represents your 
 //
     var menuItemsOrig = Highcharts.getOptions().exporting.buttons.contextButton.menuItems;
     var menuItems = $.extend([], true, menuItemsOrig);
-    menuItems.push( { text: "Download JSON", onclick: function() { saveJSON('BASIC_AREA data.json',data); } } );
+    menuItems.push( { text: "Download JSON", onclick: function() { saveJSON('BASIC_AREA data.json', data); } } );
 
 //
 //  This is the meat of the plotting functionality.
@@ -52,7 +53,8 @@ var heatmap = { // this is a global object, so pick a name that represents your 
 //  Choose a chart-type that you like from http://www.highcharts.com/demo, copy
 //  the code here, and manipulate it until it shows your data the way you like.
 //
-  var char = new Highcharts.Chart(
+    var start;
+    this.chart = new Highcharts.Chart(
 // TEMPLATE CHART
 {
 

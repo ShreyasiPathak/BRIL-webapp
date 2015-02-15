@@ -1,7 +1,15 @@
 {
-  "name": "node-sqlite",
+  "name": "BRIL-webapp",
+  "version": "0.1.0",
   "dependencies": {
-   "sqlite3": "~2.2.3",
-   "optimist": "~0.6.1"
+    "sqlite3": "~2.2.3",
+    "optimist": "~0.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^0.14.1",
+    "eslint-grunt": "^0.6.1",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-uglify": "^0.7.0"
   }
 }

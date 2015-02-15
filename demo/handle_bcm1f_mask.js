@@ -6,9 +6,11 @@
 //
 // This code is used by the server, not the client.
 //
-var fs = require("fs"),
-    sqlite3 = require('sqlite3').verbose(),
-    bcm1fMaskDB = 'demo/bcm1fMask.db',
+"use strict";
+
+var fs = require("fs");
+var sqlite3 = require('sqlite3').verbose();
+var bcm1fMaskDB = 'demo/bcm1fMask.db',
     dbExists = fs.existsSync(bcm1fMaskDB),
     db = new sqlite3.Database(bcm1fMaskDB);
 
@@ -47,9 +49,11 @@ module.exports = {
       });
     db.each("SELECT detector, channel, masked FROM mask",
       function(err, row) { // row callback
+        if ( err ) { logVerbose(now()+"SELECT bcm1fMaskDB (row): "+err); }
         data[row.detector][row.channel-1] = row.masked;
       },
       function(err,rows) { // completion callback
+        if ( err ) { logVerbose(now()+"SELECT bcm1fMaskDB (completion): "+err+"("+rows+" rows)"); }
         logVerbose(now()+JSON.stringify(data));
         response.end(JSON.stringify(data));
       }
@@ -65,20 +69,23 @@ module.exports = {
         body += data.toString();
     });
     request.on('end', function() {
-      var mask = JSON.parse(body);
+      var mask = JSON.parse(body),
+          error,
+          f = function(err) { error = err; };
 
       console.log(now(),"Received BCM1F mask: " + JSON.stringify(mask));
       db = new sqlite3.Database(bcm1fMaskDB);
-      var error;
       db.serialize(function() {
         var stmt = db.prepare("UPDATE mask SET masked=(?) WHERE detector=(?) AND channel=(?)");
         for ( var detector in mask ) {
           for ( var chan in mask[detector] ) {
-            var masked = mask[detector][chan], channel = parseInt(chan)+1;
-            stmt.run(masked,detector,channel,function(err) { error = err; });
+            var masked = mask[detector][chan],
+                channel = parseInt(chan)+1;
+            stmt.run(masked,detector,channel,f);
           }
         }
         stmt.finalize(function(err) {
+          if ( err ) { logVerbose(now()+" bcm1f_mask:put stmt.finalize: "+err); }
           if ( error ) { // yes, 'error', because 'err' refers to the finalisation!
             console.log(now(),"Caught error:",error);
             response.writeHead(500, {

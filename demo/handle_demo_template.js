@@ -7,6 +7,7 @@
 //
 // The rest is boilerplate, you shouldn't need to touch it
 //
+"use strict";
 var u = require("./util");
 
 var getData = function() {
@@ -16,7 +17,7 @@ var getData = function() {
   var data = {
     my_view: u.gaussian(1000,10,1000) // that's (mean, sigma, Npoints)
   };
-  return(data);
+  return data;
 };
 
 module.exports = {

@@ -1,11 +1,12 @@
+"use strict";
 var gaussian1 = function(x1,x2,mean,sigma) {
-  z = Math.sqrt(-2 * Math.log(x1)) * Math.cos( 2 * Math.PI * x2 );
-  return(Math.round(mean + sigma * z));
-}
-var gaussian2 = function(x1,x2,mean,sigma) {
-  z = Math.sqrt(-2 * Math.log(x1)) * Math.sin( 2 * Math.PI * x2 );
-  return(Math.round(mean + sigma * z));
-}
+    var z = Math.sqrt(-2 * Math.log(x1)) * Math.cos( 2 * Math.PI * x2 );
+    return Math.round(mean + sigma * z);
+  },
+  gaussian2 = function(x1,x2,mean,sigma) {
+    var z = Math.sqrt(-2 * Math.log(x1)) * Math.sin( 2 * Math.PI * x2 );
+    return Math.round(mean + sigma * z);
+  };
 
 module.exports = {
 //
@@ -36,4 +37,4 @@ module.exports = {
               date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":";
     return str;
   }
-}
+};
