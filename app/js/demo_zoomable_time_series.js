@@ -6,7 +6,7 @@ var zoomable_time_series = { // this is a global object, so pick a name that rep
   me: 'zoomable_time_series', // put the name of the object here too. Makes the rest of the code more generic
 
   activeButton: null, // holds 'loading' state of 'Single refresh' button
-  animate: true,
+  animate: false,
 
   get: function() {
     var url = baseUrl + "/get/" + this.me + "/data";

@@ -14,7 +14,7 @@ var getData = function() {
   }, N=1000;
   var dips=100, width=10;
   data.ZTS = u.gaussian(1000,10,N);
-  for ( i=0; i<N+width; i+=dips ) {
+  for ( i=0; i<N-width; i+=dips ) {
     for ( j=0; j<width; j++ ) {
       data.ZTS[i+j] *= (j%width)/width;
     }
