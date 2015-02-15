@@ -55,29 +55,9 @@
 
 <!-- BRIL APP STARTS HERE! -->
   <div class="container" id="chart-container">
-
-<!-- Demo of nested grid layout
-    <div class="row highlight_red">
-      <div class="col-md-8 highlight_blue">
-        .col-md-8
-        <div class="row highlight_green">
-          <div class="col-md-6 highlight_yellow">.col-md-6</div>
-          <div class="col-md-6 highlight_yellow">.col-md-6</div>
-        </div>
-      </div>
-      <div class="col-md-4">.col-md-4</div>
-    </div>
-<!-- end demo nested grid layout -->
-
     <div class="row">
       <div class="col-md-3" id="lhs">
-        <div id="select-views" style="padding: 5px 0">
-<!--
-          <div class="select-view-div">
-            <button type="submit" class="btn btn-primary" id="view-bcm1f">BCM1F</button>
-          </div>
--->
-        </div> <!-- #select-views -->
+        <div id="select-views" style="padding: 5px 0"></div> <!-- #select-views -->
       </div> <!-- .col-md-3 #lhs -->
 
       <div class="col-md-9" id='rhs'>
@@ -153,40 +133,17 @@
                   </span>
                 </div><!-- /input-group -->
 
-              </div><!--  // mask-management -->
+              </div><!--  // bcm1f_mask-management -->
               <button type="submit" class="btn btn-default" id="bcm1f_mask-channels">Mask selected channels</button>
               <span id="bcm1f_mask-message" style="padding:10px 20px"></span>
             </form> <!-- end of BCM1f mask-management form -->
           </div> <!-- .bcm1f -->
 
-          <div class="row bcm1f"><!-- holds a 'subtitle' panel -->
-            <div class="col-md-3"></div>
-            <div class="col-md-6"><div id="bcm1f-subtitle"></div></div>
-            <div class="col-md-3"></div>
-          </div> <!-- .row .bcm1f -->
-          <div class="row bcm1f"><!-- holds the buttons for refreshing the BCM1F data -->
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
-              <div class="btn-group" role="group">
-                <button class="btn btn-primary" id="bcm1f_single_refresh" role="button" data-loading-text="Loading...">Single refresh</button>
-                <button class="btn btn-primary" id="bcm1f_auto_refresh" role="button" data-toggle="button" aria-pressed="false" style="margin-left: 4px">Start auto-refresh</button>
-              </div>
-            </div>
-          </div> <!-- row bcm1f -->
-        </div> <!-- .row #control-panel -->
-
-        <div class="row bcm1f"><!-- this is where the main chart goes -->
-          <div class="col-md-12">
-            <div id="bcm1f-chart" class="chart"></div>
-            <div id="bcm1f-chart-message" class="chart-selected-message"></div>
-          </div>
-        </div> <!-- row bcm1f -->
       </div> <!-- .col-md-9 #rhs -->
     </div> <!-- .row -->
-
   </div> <!-- .container #chart-container -->
 
-<hr> <!-- ---------------------- THE OLD STUFF STARTS HERE ------------------------ -->
+<hr>
 
     <script src="js/vendor/jquery-1.11.1.min.js"></script>
     <script src="js/vendor/highcharts.js"></script>
@@ -202,7 +159,7 @@
     <script src="js/demo_zoomable_time_series.js"></script>
     <script src="js/demo_line_graph.js"></script>
     <script src="js/demo_wind_rose.js"></script>
-    <!-- script src="js/demo_heatmap.js"></script> <!-- heatmap display code -->
+    <!-- script src="js/demo_heatmap.js"></script>
 
     <!-- TEMPLATE: add your javascript file here. Change my_view to the name of your view -->
     <!-- TEMPLATE: don't forget to remove the '!-- ' from the start of script declaration! -->
@@ -210,6 +167,6 @@
     <!-- script src="js/my_view.js"></script>
     <!-- end of TEMPLATE: -->
 
-    <script src="js/main.js"></script> <!-- main program driver -->
+    <script src="js/main.js"></script> <!-- main program driver. Don't add anything below here -->
   </body>
 </html>
