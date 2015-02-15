@@ -35,12 +35,12 @@ var getData = function() {
       [ "NNW", 1.51, 5.00, 1.32, 0.13, 0.23, 0.13, 0.07 ]
     ]
   };
-  var noise = u.gaussian(10,3,7*16);
+  var noise = u.gaussian(100,30,7*16);
   var k=0;
   for (var i=1; i<17; i++) {
     for (var j=1; j<8; j++) {
       console.log("data[",i,",",j,"] = ",data.wind_rose[i][j]);
-      data.wind_rose[i][j] += noise[k++]/10;
+      data.wind_rose[i][j] = Math.round(data.wind_rose[i][j]*100+noise[k++])/100;
     }
   }
   return data;
