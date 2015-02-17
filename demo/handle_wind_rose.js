@@ -39,7 +39,7 @@ var getData = function() {
   var k=0;
   for (var i=1; i<17; i++) {
     for (var j=1; j<8; j++) {
-      console.log("data[",i,",",j,"] = ",data.wind_rose[i][j]);
+//    console.log("data[",i,",",j,"] = ",data.wind_rose[i][j]);
       data.wind_rose[i][j] = Math.round(data.wind_rose[i][j]*100+noise[k++])/100;
     }
   }
