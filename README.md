@@ -2,6 +2,8 @@
 ## prototype web application for BRIL monitoring
 
 ## Installation/setup
+This part tells you how to get a copy of the code so you can run it, but if you want to develop new code you should read the **Developing with GIT** section (below) first.
+
 You can run this code on any unix box with **Node** and **npm** installed, such as your laptop, lxplus, vocms063, or a VM. I personally use a VM running on my MacBook Pro so I can develop locally.
 
 You can read more about **Node** at http://nodejs.org/ and more about **npm** at http://npmjs.org/ if you like, but it's not required.
@@ -17,6 +19,8 @@ you should see the version numbers printed out. If you're running on a private V
 
 Next, clone this package to your working directory:
 > git clone https://github.com/TonyWildish/BRIL-webapp.git
+
+(you can clone a private fork instead of my personal repository if you want to develop code see below for details)
 
 That will give you a copy that you can play with, but to commit your changes you'll want to go to that URL on github, **fork** this package to your own account, and clone your fork here instead. Then you can commit your developments to your fork and make a **pull** request for me to update the main repository.
 
@@ -78,4 +82,36 @@ Reload your browser window and look at your view, it should reproduce the demo c
 
 8) If that works, go back to your **app/js/my\_view.js** file again. In '**successGet**' you will need to pull the useful bits out of your data and feed them to the plot, and change options like titles, axes etc. You'll have to look at the chart structure for how to do that, they all differ slightly but it should be obvious where it goes.
 
-9) Connect to a real data-source. Not sure how to do that yet...
+9) Connect to a real data-source. For now there is a simple demo module, **demo/handle\_http\_request.js**, which shows how the server can fetch data from a remote HTTP server rather than generating fake data. If you have a real data-source you can try adapting this.
+
+Note that this demo is not production-quality yet, it makes a blocking-call which will keep any other clients waiting until this call finishes. I'll put in a non-blocking client later.
+
+# Developing with GIT
+## Getting started
+Any decent git tutorial should serve you well. The basic workflow is:
+
+1) Create an account at github.com.
+2) Import your SSH key so you can upload files easily: on your github home-page go to 'Settings' -> 'SSH Keys', follow the instructions. Since you probably already have an SSH key you can just import that, no need to create a new one.
+3) 'fork' this repository: Go to http:github.com/TonyWildish/BRIL-webapp and click the 'fork' button, follow the instructions
+4) Now 'clone' your forked repository to your development machine:
+> git clone git@github.com:YourUserName/BRIL-webapp
+
+Congratulations, you now have a working copy of the code to play with!
+
+## Adding your own code
+Now you can create new files and add them to your fork. Create new files following the instructions for **prototyping a view**, above. Then:
+
+> git add file1 file2 file3 ...
+> git commit -m "add a meaningful commit message here"
+> git push
+
+Your fork now contains new code that is not in my version of the repository. You can 'rm -rf' your working directory and still recover it by cloning your fork again. So you have version control and your code is safe. You can git add/commit/push as often as you like, there's no harm in committing early and often.
+
+When you're happy with your code and want to merge it with my repository, go to github.com, select your repository, and click on the **pull request** button. Give a title and useful comment to your request, then click the **create pull request** button. This tells me that your code is ready and I should do the merge, and I take it from there.
+
+## Multiple developers
+There are more things to worry about when there are many developers actively working.
+
+For one thing, your fork can become out of date with respect to the main code if others are updating it while you're developing in your corner. If that happens it will show up when you create a pull request, you will see many changes that happened in the main branch but not in yours. No problem, we can tackle that on a case-by-case basis when it arises, it's best to get some experience with GIT before trying to learn how to deal with that.
+
+Otherwise, the usual basic hygiene of making sure that no two people are working on the same set of files is a good idea. You can certainly do that, but even with a proper VCS like GIT it's possible to mess up, overwriting changes without realising it. If there are two of you working on the same view then you may have that problem, otherwise it shouldn't arise in this project. Only if you're making changes to the HTML template, or to the server core, is that likely to happen.
