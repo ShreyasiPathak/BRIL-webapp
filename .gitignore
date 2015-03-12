@@ -1,3 +1,4 @@
 node_modules
 bcm1fMask.db
 *.log
+build/
