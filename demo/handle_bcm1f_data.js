@@ -2,7 +2,7 @@
 // This is a module for faking data for the BCM1F detector, for demo purposes.
 //
 "use strict";
-var u = require("./util");
+var u = require("../server/bril-util");
 
 //
 // The 'getData' function creates a structure with four arrays, each with 12 values.

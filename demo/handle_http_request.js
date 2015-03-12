@@ -8,7 +8,7 @@
 // The rest is boilerplate, you shouldn't need to touch it
 //
 "use strict";
-var u = require("./util");
+var u = require("../server/bril-util");
 var http = require('http');
 
 var getData = function(response) {

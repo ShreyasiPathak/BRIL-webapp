@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
-var u = require("../demo/util");
+var u = require("./bril-util");
+console.log(u);
 global.now = u.now; // make 'now' accessible in loaded modules
 
 var argv = require("optimist").argv;

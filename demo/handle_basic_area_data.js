@@ -2,7 +2,7 @@
 // This is a module for faking data for a Basic Area plot, for demo purposes.
 //
 "use strict";
-var u = require("./util");
+var u = require("../server/bril-util");
 
 var getData = function() {
 //

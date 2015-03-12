@@ -2,7 +2,7 @@
 // This is a module for faking data for demonstrating a basic line graph.
 //
 "use strict";
-var u = require("./util");
+var u = require("../server/bril-util");
 
 var getData = function() {
 //

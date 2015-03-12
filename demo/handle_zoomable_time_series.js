@@ -2,7 +2,7 @@
 // This is a module for faking data for the Zoomable Time-series chart, for demo purposes.
 //
 "use strict";
-var u = require("./util");
+var u = require("../server/bril-util");
 
 var getData = function() {
 //
