@@ -7,6 +7,8 @@ global.now = u.now; // make 'now' accessible in loaded modules
 
 var argv = require("optimist").argv;
 var defaultConfigFile = "config.json";
+var config;
+
 if ( argv.h || argv.help ) {
   console.log("\n",
   "Usage:",argv.$0," {options} where options are:\n",
@@ -25,7 +27,7 @@ console.log(now(),"Starting");
 //
 var http = require("http"),
     fs   = require("fs"); // used for watching the config file for changes
-    var config, configFile = (argv.config || argv.c || defaultConfigFile),
+    var configFile = (argv.config || argv.c || defaultConfigFile),
     logVerbose,
     logVerboseReal=function() { console.log(arguments); };
 global.logVerbose = logVerbose = logVerboseReal;
@@ -49,6 +51,7 @@ var readConfig = function() {
   console.log(now(),"Config: Verbosity: ", config.verbose);
   console.log(now(),"Config: Logfile: ", config.logfile);
   console.log(now(),"Module path: ",config.module_path);
+  global.config = config;
 };
 readConfig();
 
