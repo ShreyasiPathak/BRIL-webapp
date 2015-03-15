@@ -29,34 +29,38 @@ var http = require("http"),
     fs   = require("fs"); // used for watching the config file for changes
     var configFile = (argv.config || argv.c || defaultConfigFile),
     logVerbose,
-    logVerboseReal=function() { console.log(arguments); };
-global.logVerbose = logVerbose = logVerboseReal;
+    ConsoleLog = function() {
+      var arg='';
+      for ( var i in arguments ) { arg += arguments[i] + ' '; }
+      console.log(now(),arg);
+    };
+global.logVerbose = logVerbose = ConsoleLog;
 
 //
 // Read the config file, then watch it for changes
 //
 var readConfig = function() {
   var contents = fs.readFileSync(configFile);
-  console.log(now(),"Config file ",configFile," read");
+  ConsoleLog("Config file ",configFile," read");
 
   config = JSON.parse(contents);
   config.verbose = parseInt(config.verbose);
   if ( config.verbose ) {
-    logVerbose = logVerboseReal;
+    logVerbose = ConsoleLog;
   } else {
     logVerbose = function() {};
   }
 
-  console.log(now(),"Config: Host and port: ", config.host, ":", config.port);
-  console.log(now(),"Config: Verbosity: ", config.verbose);
-  console.log(now(),"Config: Logfile: ", config.logfile);
-  console.log(now(),"Module path: ",config.module_path);
+  ConsoleLog("Config: Host and port: ", config.host, ":", config.port);
+  ConsoleLog("Config: Verbosity: ", config.verbose);
+  ConsoleLog("Config: Logfile: ", config.logfile);
+  ConsoleLog("Module path: ",config.module_path);
   global.config = config;
 };
 readConfig();
 
 fs.watchFile(configFile, function() {
-  console.log(now(),"Config changed");
+  ConsoleLog("Config changed");
   readConfig();
 });
 
@@ -70,13 +74,18 @@ for ( i=0; i < handler_files.length; i++ ) {
   handler = handler_files[i];
   if ( handler.match('^handle_.*.js$') ) { // N.B. only 'handle_*.js' files here!
     handler = handler.replace(/.js$/,'');
-    handlers.push( require("../"+config.module_path+"/"+handler) );
+    ConsoleLog("Add handler: ",handler);
+    handler = require("../"+config.module_path+"/"+handler);
+    handlers.push( handler );
+    if ( handler.path.length > 1 ) {
+      ConsoleLog("      paths: ",JSON.stringify(handler.path));
+    }
   }
 }
 
 // create the server!
 var server = http.createServer( function(request,response) {
-  console.log(now(),"Received request: " + request.url);
+  ConsoleLog("Received request: " + request.url);
 
 //
 // Find a matching handler, if any, for this URL. Call the handler method
@@ -101,7 +110,7 @@ var server = http.createServer( function(request,response) {
 // trivial test data, just to ease the development path
 //
   if ( request.url === "/get/test/data" ) {
-    console.log(now(),"Sending test data");
+    ConsoleLog("Sending test data");
     response.writeHead(200,{
         "Content-type":  "application/json",
         "Cache-control": "max-age=0"
@@ -114,7 +123,7 @@ var server = http.createServer( function(request,response) {
 // tell the server to quit, in case you'd ever want to do that...
 //
   if ( request.url === "/quit" ) {
-    console.log(now(),"Got a request to quit: Outta here...");
+    ConsoleLog("Got a request to quit: Outta here...");
     response.writeHead(200,{"Content-type":"text/plain"});
     response.end("Server exiting at your request");
     server.close();
@@ -142,7 +151,7 @@ var server = http.createServer( function(request,response) {
   fs.readFile("./app" + file,function(error,data) {
     if ( error ) {
 //    Send a 404 for non-existent files
-      console.log(now(),"Error reading ./app"+file+": "+error);
+      ConsoleLog("Error reading ./app"+file+": "+error);
       response.writeHead(404,{"Content-type":"text/plain"});
       response.end("Sorry, page not found<br>");
       return;
@@ -192,7 +201,7 @@ var server = http.createServer( function(request,response) {
 // Fire up the server!
 //
 server.listen(config.port,config.host,function() {
-  console.log(now(),"Listening on " + config.host + ":" + config.port);
+  ConsoleLog("Listening on " + config.host + ":" + config.port);
 });
 
 //
