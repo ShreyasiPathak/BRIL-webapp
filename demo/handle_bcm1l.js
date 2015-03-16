@@ -3,7 +3,7 @@
 //
 "use strict";
 var http = require('http'),
-    u = require('../server/bril-util');
+    util = require('../server/bril-util');
 
 //
 // 'me' is used in several places, to define the URL that will serve your data,
@@ -28,7 +28,7 @@ var options = {
   }
 };
 
-var getFakeData = function(request,response) {
+var getFakeData = function() {
 //
 // The data structure here is taken directly from xmas and cut/pasted into the code.
 // This lets me test getting/parsing data independently of access to xmas, e.g. while
@@ -86,15 +86,7 @@ var getFakeData = function(request,response) {
       if ( pa1[j] > 0.001 ) { pa1[j] = pa1[j] * (Math.random()-0.5)/10; }
     }
   }
-
-//
-// send the fake data
-//
-  response.writeHead(200,{
-    "Content-type":  "application/json",
-    "Cache-control": "max-age=0"
-  });
-  response.end(JSON.stringify(data));
+  return data;
 };
 
 //
@@ -121,23 +113,31 @@ var parseData = function(data) {
 };
 
 module.exports = {
+  me: me,
+
+  fakeDataPath: function() { return '/get/fake/' + me + '/data'; },
+
   get: function(request,response) {
 
     if ( global.config.fakedata ) { // re-route to fake data source
       options.hostname = global.config.host;
       options.port     = global.config.port;
-      options.path     = '/get/fake/'+me+'/data';
+      options.path     = '/get/fake/' + me + '/data';
     }
 
-    if ( request.url === '/get/'+me+'/data' ) {
-      logVerbose(now(),'Get '+me+' data from xmas');
-      u.getData(options,request,response,parseData);
-    } else if ( request.url === '/get/fake/'+me+'/data' ) {
-      getFakeData(request,response);
-      logVerbose(now(),'Serve '+me+' fake data');
+    if ( request.url === '/get/' + me + '/data' ) {
+      logVerbose(now(),'Get ' + me + ' data from xmas');
+      util.getData(options,request,response,this);
+    } else if ( request.url === this.fakeDataPath() ) {
+      logVerbose(now(),'Serve ' + me + ' fake data');
+      response.writeHead(200,{
+        "Content-type":  "application/json",
+        "Cache-control": "max-age=0"
+      });
+      response.end(JSON.stringify(getFakeData()));
     } else {
       console.log(now(),me,": How the heck did I get here???");
     }
   },
-  path: [ '/get/'+me+'/data', '/get/fake/'+me+'/data' ]
+  path: [ '/get/' + me + '/data', '/get/fake/' + me + '/data' ]
 };

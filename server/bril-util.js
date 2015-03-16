@@ -47,19 +47,20 @@ module.exports = {
 //
 // Used to get data from xmas or from the fake data handlers built into the server
 //
-  getData: function(options,request,response,parseData) {
+  getData: function(options,request,response,obj) {
+    console.log(util.inspect(obj));
     var req = http.request(options, function(res) {
-      logVerbose(req.path,'Status: ' + res.statusCode);
-      logVerbose(req.path,'Headers: ' + JSON.stringify(res.headers));
+      logVerbose(obj.me,'Status: ' + res.statusCode);
+      logVerbose(obj.me,'Headers: ' + JSON.stringify(res.headers));
       if ( res.statusCode !== 200 ) {
         response.writeHead(res.statusCode,res.headers);
         response.end(response.text);
       }
       res.on('data', function (chunk) {
-        logVerbose(req.path,'Body: ' + chunk);
-        if ( parseData ) {
+        logVerbose(obj.me,'Body: ' + chunk);
+        if ( obj.parseData ) {
           var data = JSON.parse(chunk);
-          data = parseData(data);
+          data = obj.parseData(data);
           chunk = JSON.stringify(data);
         }
         response.end(chunk);
