@@ -59,9 +59,12 @@ module.exports = {
       res.on('data', function (chunk) {
         logVerbose(obj.me,'Body: ' + chunk);
         if ( obj.parseData ) {
-          var data = JSON.parse(chunk);
-          data = obj.parseData(data);
-          chunk = JSON.stringify(data);
+          logVerbose(obj.me,'Parsing data...');
+          chunk = JSON.stringify(
+                    obj.parseData(
+                      JSON.parse(chunk)
+                    )
+                  );
         }
         response.end(chunk);
       });

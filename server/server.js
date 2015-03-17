@@ -203,25 +203,3 @@ var server = http.createServer( function(request,response) {
 server.listen(config.port,config.host,function() {
   ConsoleLog("Listening on " + config.host + ":" + config.port);
 });
-
-//
-// How to to a 'GET' from Node.js
-//
-// var http=require('http');
-
-// //make the request object
-// var request=http.request({
-//   'host': 'localhost',
-//   'port': 80,
-//   'path': '/',
-//   'method': 'GET'
-// });
-
-// //assign callbacks
-// request.on('response', function(response) {
-//    console.log('Response status code:'+response.statusCode);
-
-//    response.on('data', function(data) {
-//      console.log('Body: '+data);
-//    });
-// });
