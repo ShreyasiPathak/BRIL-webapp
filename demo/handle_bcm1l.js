@@ -89,6 +89,28 @@ var getFakeData = function() {
   return data;
 };
 
+module.exports = {
+  me: me,
+
+//
+// The 'get' function won't need changing, it's standard
+//
+  get: function(request,response) {
+    if ( global.config.fakedata ) {
+      logVerbose(now(),'Serve ' + me + ' fake data');
+      response.writeHead(200,{
+        "Content-type":  "application/json",
+        "Cache-control": "max-age=0"
+      });
+      response.end( JSON.stringify( this.parseData( getFakeData() ) ) );
+    } else if ( request.url === '/get/' + me + '/data' ) {
+      logVerbose(now(),'Get ' + me + ' data from xmas');
+      util.getData(options,request,response,this);
+    } else {
+      console.log(now(),me,": How the heck did I get here???");
+    }
+  },
+
 //
 // The 'parseData' function takes the raw JSON object from xmas and does
 // whatever is needed to transform it into something usable by the client
@@ -101,43 +123,16 @@ var getFakeData = function() {
 // It's also worth pruning away stuff you don't need in the browser. It just
 // wastes bandwidth and CPU to encode, send and parse it.
 //
-var parseData = function(data) {
-  var table=data.table, newdata={};
-  newdata.timestamp = new Date(table.properties.LastUpdate).getTime();
-  newdata.tag = table.properties.Tag;
-  newdata.data = [];
-  for ( var i in table.rows ) {
-    newdata.data.push(table.rows[i].PercentAbort1);
-  }
-  return newdata;
-};
-
-module.exports = {
-  me: me,
-
-  fakeDataPath: function() { return '/get/fake/' + me + '/data'; },
-
-  get: function(request,response) {
-
-    if ( global.config.fakedata ) { // re-route to fake data source
-      options.hostname = global.config.host;
-      options.port     = global.config.port;
-      options.path     = '/get/fake/' + me + '/data';
+  parseData: function(data) {
+    var table=data.table, newdata={};
+    newdata.timestamp = new Date(table.properties.LastUpdate).getTime();
+    newdata.tag = table.properties.Tag;
+    newdata.data = [];
+    for ( var i in table.rows ) {
+      newdata.data.push(table.rows[i].PercentAbort1);
     }
-
-    if ( request.url === '/get/' + me + '/data' ) {
-      logVerbose(now(),'Get ' + me + ' data from xmas');
-      util.getData(options,request,response,this);
-    } else if ( request.url === this.fakeDataPath() ) {
-      logVerbose(now(),'Serve ' + me + ' fake data');
-      response.writeHead(200,{
-        "Content-type":  "application/json",
-        "Cache-control": "max-age=0"
-      });
-      response.end(JSON.stringify(getFakeData()));
-    } else {
-      console.log(now(),me,": How the heck did I get here???");
-    }
+    return newdata;
   },
+
   path: [ '/get/' + me + '/data', '/get/fake/' + me + '/data' ]
 };
