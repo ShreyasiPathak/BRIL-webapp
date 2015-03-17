@@ -34,7 +34,6 @@ var basic_area = { // this is a global object, so pick a name that represents yo
 //  Parse the data into a useable form
 //
     var data = response.data;
-console.log(data);
 //
 //  Add a 'download JSON' option to the menu button. Have to clone the Highcharts menu and
 //  append to that, otherwise you get a mess
