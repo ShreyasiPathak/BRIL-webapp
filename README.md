@@ -59,7 +59,7 @@ To start with, let's not consider interaction from the browser, as in masking BC
 
 2) Edit **app/index.html**, look for the sections labelled '**TEMPLATE**', and follow the instructions there. There may be several sections that need copying and editing.
 
-3) Copy **app/js/demo\_template.js** to **app/js/my\_view.js** (using the correct name instead of **my\_view**, of course). Edit your new file and change **'my_view'** to the name of your view everywhere.
+3) Copy **app/js/demo\_template.js** to **app/js/my\_view.js** (using the correct name instead of **my\_view**, of course). Edit your new file and change **'my_view'** to the name of your view everywhere. Again, there are a few places scattered through the file, check them all.
 
 At this point you should have a basic working app. The **demo_template.js** file you copied does contact the server for data, but it only fetches a fixed array of test data that happens to match this plot well. This lets you get a working plot first, before fussing with the server.
 
@@ -76,15 +76,17 @@ Even then, some of the more advanced demos (e.g. the complex heatmap) will take 
 
 Reload your browser window and look at your view, it should reproduce the demo correctly.
 
-6) Now make a fake data-source. Copy **demo/handle\_demo\_template.js** to **demo/handle\_my\_view.js** (substituting the correct string for **'my\_view'**), edit it, and follow the instructions.
+6) Now make a fake data-source. Copy **demo/handle\_demo\_template.js** to **demo/handle\_my\_view.js** (substituting the correct string for **'my\_view'**), edit it, and follow the instructions in the comments. In particular, the **getFakeData** function needs to be updated. It should return a structure that looks exactly like your data from xmas.
 
 7) restart your server (see step 4). You can now visit **http://localhost:9234/get/my\_view/data** (again, put correct name instead of **my_view**) and you should see a JSON structure that looks like your fake data.
 
-8) If that works, go back to your **app/js/my\_view.js** file again. In '**successGet**' you will need to pull the useful bits out of your data and feed them to the plot, and change options like titles, axes etc. You'll have to look at the chart structure for how to do that, they all differ slightly but it should be obvious where it goes.
+8) If that works, go back to your **app/js/my\_view.js** file again. In '**successGet**' you will need to pull the useful bits out of your data and feed them to the plot, and change options like titles, axes etc. You'll have to look at the chart structure for how to do that, they all differ slightly but it should be reasonably obvious where it all goes.
 
-9) Connect to a real data-source. For now there is a simple demo module, **demo/handle\_http\_request.js**, which shows how the server can fetch data from a remote HTTP server rather than generating fake data. If you have a real data-source you can try adapting this.
+9) At this point you should have your chart looking how you want it, so now it's time to connect to a real data-source. Go back to **demo/handle\_my\_view.js** and set the **hostname**, **port**, and **path** in the **options** object. In the top-level directory, edit the **config.json** file and set **fakedata** to **false**. Then re-start the server. If you've done a good job of making your fake data look like your real data (step 6) then everything will just work out of the box.
 
-Note that this demo is not production-quality yet, it makes a blocking-call which will keep any other clients waiting until this call finishes. I'll put in a non-blocking client later.
+Of course, you'll need to be inside the **.cms** firewall to contact the real data sources. That's partly why we develop with fake data, it allows you to write code at home on a laptop with a friendly environment etc, rather than code and run over a link with all the fun and games that gives.
+
+For a working example of all that, take a look at the 'bcm1l' chart. The code is in **app/js/demo\_bcm1l.js** and **demo/handle\_bcm1l.js**. It contacts xmas and pulls out the **PercentAbort1** values, then plots them as a line graph. Not very exciting, but it does do all the steps correctly, so that should help.
 
 # Developing with GIT
 ## Getting started
