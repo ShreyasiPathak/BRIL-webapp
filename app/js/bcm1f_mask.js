@@ -93,4 +93,3 @@ bcm1f_mask = {
     return this;
   }
 }.init();
-console.log("BCM1F_Mask: ", bcm1f_mask);
