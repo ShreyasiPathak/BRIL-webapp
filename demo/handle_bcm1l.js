@@ -138,5 +138,5 @@ module.exports = {
     return newdata;
   },
 
-  path: [ '/get/' + me + '/data', '/get/fake/' + me + '/data' ]
+  path: [ '/get/' + me + '/data' ]
 };

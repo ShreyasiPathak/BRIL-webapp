@@ -99,5 +99,5 @@ module.exports = {
 // the module-name is taken from what you defined at the top of this file, and
 // the trailing '/data' is just for fun.
 //
-  path: [ '/get/' + me + '/data', '/get/fake/' + me + '/data' ]
+  path: [ '/get/' + me + '/data' ]
 };
