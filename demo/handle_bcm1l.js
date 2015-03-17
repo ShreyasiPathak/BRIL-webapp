@@ -120,6 +120,10 @@ module.exports = {
 // In this case, the data structure contains a date as a string. Parse it
 // to an epoch time, which in JavaScript means milliseconds since 01/01/1970.
 //
+// You could also tidy the values here. E.g. there are a lot of '-1's in the
+// PercentAbort1 fake data. You could remove them, or do something else with
+// them. It all depends what you want the presentation code to see.
+//
 // It's also worth pruning away stuff you don't need in the browser. It just
 // wastes bandwidth and CPU to encode, send and parse it.
 //
