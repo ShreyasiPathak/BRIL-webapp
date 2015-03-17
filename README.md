@@ -86,7 +86,7 @@ Reload your browser window and look at your view, it should reproduce the demo c
 
 Of course, you'll need to be inside the **.cms** firewall to contact the real data sources. That's partly why we develop with fake data, it allows you to write code at home on a laptop with a friendly environment etc, rather than code and run over a link with all the fun and games that gives.
 
-For a working example of all that, take a look at the 'bcm1l' chart. The code is in **app/js/demo\_bcm1l.js** and **demo/handle\_bcm1l.js**. It contacts xmas and pulls out the **PercentAbort1** values, then plots them as a line graph. Not very exciting, but it does do all the steps correctly, so that should help.
+For a working example of all that, take a look at the 'bcml' chart. The code is in **app/js/demo\_bcml.js** and **demo/handle\_bcml.js**. It contacts xmas and pulls out the **PercentAbort1** values, then plots them as a line graph. Not very exciting, but it does do all the steps correctly, so that should help.
 
 # Developing with GIT
 ## Getting started
