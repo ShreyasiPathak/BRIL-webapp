@@ -41,7 +41,7 @@ var getFakeData = function() {
 // This lets me test getting/parsing data independently of access to xmas, e.g. while
 // I'm away from the CMS online world or if the DAQ is down for any reason.
 //
-// For a working example, check the code in handle_bcm1l.js
+// For a working example, check the code in handle_bcml.js
 //
 // This trivial example simply creates an array with 1000 values drawn from a gaussian,
 //
@@ -80,7 +80,7 @@ module.exports = {
 // fed directly to a Highcharts plotting function.
 //
 // In this case, there's nothing to do, so parseData is empty. For a more
-// complete example, look in the handle_bcm1l.js code.
+// complete example, look in the handle_bcml.js code.
 //
 // It's also worth pruning away stuff you won't need in the browser. It just
 // wastes bandwidth and CPU to encode, send and parse it.

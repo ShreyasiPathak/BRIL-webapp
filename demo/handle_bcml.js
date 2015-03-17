@@ -1,5 +1,5 @@
 //
-// This example shows how to handle the bcm1l data
+// This example shows how to handle the bcml data
 //
 "use strict";
 var http = require('http'),
@@ -9,7 +9,7 @@ var http = require('http'),
 // 'me' is used in several places, to define the URL that will serve your data,
 // (/get/"me"/data) and in output to the logfile.
 //
-var me = 'bcm1l';
+var me = 'bcml';
 
 //
 // The "options" object defines how to contact your data-source. Change the

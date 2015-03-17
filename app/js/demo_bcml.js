@@ -2,8 +2,8 @@
 //
 // Fetch and display data for a 'my_view' chart
 //
-var bcm1l = { // this is a global object, so pick a name that represents your view uniquely
-  me: 'bcm1l', // put the name of the object here too. Makes the rest of the code more generic
+var bcml = { // this is a global object, so pick a name that represents your view uniquely
+  me: 'bcml', // put the name of the object here too. Makes the rest of the code more generic
 
   activeButton: null, // holds 'loading' state of 'Single refresh' button
   animate: true,
@@ -66,7 +66,7 @@ var bcm1l = { // this is a global object, so pick a name that represents your vi
           }
         }
       },
-      title: { text: 'BCM1L Percent Abort 1' },
+      title: { text: 'BCML Percent Abort 1' },
       xAxis: {
           title: { text: 'Channel' }
       },
