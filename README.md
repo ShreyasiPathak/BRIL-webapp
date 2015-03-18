@@ -114,6 +114,22 @@ When you're happy with your code and want to merge it with my repository, go to 
 ## Multiple developers
 There are more things to worry about when there are many developers actively working.
 
-For one thing, your fork can become out of date with respect to the main code if others are updating it while you're developing in your corner. If that happens it will show up when you create a pull request, you will see many changes that happened in the main branch but not in yours. No problem, we can tackle that on a case-by-case basis when it arises, it's best to get some experience with GIT before trying to learn how to deal with that.
+For one thing, your fork can become out of date with respect to the main code if others are updating it while you're developing in your corner. If that happens it will show up when you create a pull request, you will see many changes that happened in the main branch but not in yours. To deal with that, you need to keep your fork in sync with the main repository.
+
+When you first check out your fork, add the main repository as a 'remote' repository:
+
+> git remote add upstream https://github.com/TonyWildish/BRIL-webapp
+
+Then, at regular intervals in your development cycle (e.g. every morning, or after an interval where others may have been committing code):
+
+> git fetch upstream
+> git checkout master
+> git merge upstream/master
+
+You may see conflicts, in which case you will have to resolve them manually. Then, update your fork with your new code:
+
+> git push origin master
+
+Then go to your github account, select your fork, and make a pull request as before.
 
 Otherwise, the usual basic hygiene of making sure that no two people are working on the same set of files is a good idea. You can certainly do that, but even with a proper VCS like GIT it's possible to mess up, overwriting changes without realising it. If there are two of you working on the same view then you may have that problem, otherwise it shouldn't arise in this project. Only if you're making changes to the HTML template, or to the server core, is that likely to happen.
