@@ -114,6 +114,12 @@ var addView = function(me) {
     '  <div class="col-md-12">' +
     '    <div id="'+me+'-chart" class="chart"></div>' +
     '    <div id="'+me+'-chart-message" class="chart-selected-message"></div>' +
+    '    <div id="'+me+'-chart2" class="chart"></div>' +
+    '    <div id="'+me+'-chart2-message" class="chart-selected-message"></div>' +
+    '    <div id="'+me+'-chart3" class="chart"></div>' +
+    '    <div id="'+me+'-chart3-message" class="chart-selected-message"></div>' +
+    '    <div id="'+me+'-chart4" class="chart"></div>' +
+    '    <div id="'+me+'-chart4-message" class="chart-selected-message"></div>' +
     '  </div>' +
     '</div> <!-- row '+me+' -->').appendTo('#rhs');
 };
